@@ -1,0 +1,109 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.senara-header {
+    border-radius: 10px;
+    box-shadow: v.$boxShadow;
+    background-color: v.$blanco;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 10px;
+
+
+    @include m.tablet {
+        justify-content: space-between;
+        display: flex;
+    }
+
+    .senara-logo-header {
+        width: 20rem;
+        display: flex;
+
+        @include m.tablet {
+            padding-left: 2rem;
+        }
+
+        .senara-img-logo-header {
+            transform: scale(.75);
+            width: 100%;
+            background-image: url('../img/logo_letra.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+            @include m.tablet {
+                transform: scale(1);
+            }
+        }
+    }
+
+    .senara-icon-header {
+        display: grid;
+        gap: 2rem;
+        // text-align: center;
+        // background-position: right right;
+        align-items: center;
+        padding-right: 2rem;
+        justify-items: end;
+
+        >a:nth-child(1) {
+            padding-top: 1.5rem;
+        }
+
+        >a:nth-child(2) {
+            padding-bottom: 1.5rem;
+        }
+
+        svg {
+            padding-left: 1.5rem;
+        }
+
+        .logout-header {
+            color: red;
+            cursor: pointer;
+        }
+    }
+
+    .senara-descrip-page {
+        color: v.$verdeOscuro  !important;
+        display: none;
+
+        @include m.desktop {
+            display: block;
+            color: green;
+            max-width: 60%;
+            align-self: center;
+        }
+    }
+
+    p {
+        margin: 0;
+        font-size: 1.4rem;
+
+        span {
+            font-weight: 700;
+            color: v.$verdeOscuro;
+        }
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 2rem;
+        color: v.$verdeOscuro;
+
+        @include m.tablet {
+            font-size: 3rem;
+            text-align: center
+        }
+    }
+
+    .close-session {
+        @include m.boton(v.$blanco, darken(v.$verdeClaro, 20%));
+        padding: 1rem;
+        border-radius: 0.5rem;
+
+        >i {
+            padding-right: 0.5rem;
+        }
+    }
+}
