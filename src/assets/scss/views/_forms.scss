@@ -1,0 +1,57 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.title-container {
+    background-color: lighten(v.$gris, 35%);
+    display: grid;
+    place-content: center;
+}
+
+.senara-forms {
+    display: grid;
+    overflow-x: auto;
+
+    .forms-container {
+        display: grid;
+        grid-template-rows: 1fr 50px;
+        padding: 4rem;
+
+        @include m.desktop {
+            padding: 8rem;
+        }
+
+        .forms-content {
+            display: grid;
+            grid-template-rows: repeat(2, minmax(522px 1fr));
+
+            @include m.desktop {
+                gap: 4rem;
+                grid-template-rows: none;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .forms-content-group {
+            display: grid;
+
+            @include m.desktop {
+                padding: 0 5rem;
+            }
+
+            .forms-content-group-item {
+                display: grid;
+                padding-block-end: 2rem;
+
+                @include m.desktop {
+                    grid-template-columns: repeat(auto-fit, minmax(calc(33% - 2rem), 1fr));
+                    gap: 2rem;
+                }
+            }
+        }
+
+        button {
+            justify-self: center;
+            min-width: 20rem;
+        }
+    }
+}
