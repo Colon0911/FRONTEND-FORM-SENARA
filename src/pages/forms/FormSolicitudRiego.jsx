@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, useOutletContext } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
+import { PDFSolicitudRiego } from '../../pdf/PDFSolicitudRiego'
 
 import * as Yup from 'yup'
 
@@ -249,6 +250,7 @@ const FormSolicitudRiego = () => {
                 <button type="submit" className="senara-btn-primary">
                   Hacer Solicitud
                 </button>
+                <button onClick={PDFSolicitudRiego}> Descargar</button>
               </Form>
             )
           }}
