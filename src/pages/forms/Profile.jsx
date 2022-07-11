@@ -10,14 +10,16 @@ import { useAuth } from '../../hooks/useAuth'
 import { getData } from '../../helpers/loadUserData'
 import { getIdentification } from '../../helpers/decoding'
 import { updateUser } from '../../services/userServices'
+import { compareDates } from '../../helpers/compareDates'
 
 const Profile = () => {
-    const { user, token } = useAuth()
+    const { user, expiresIn, token, logout } = useAuth()
 
+    if (!compareDates(expiresIn)) logout()
     if (!user) return <Navigate to="/" />
 
     const profileSchema = Yup.object().shape({
-        phone: Yup.string().required('El teléfono es obligatorio!'),
+        phone: Yup.string().matches(/^[2|4|5|6|7|8]\d{7}$/, 'Formato Costarricense requerido!').required('El teléfono es obligatorio!'),
         province: Yup.string().required('La provincia es obligatorio!'),
         canton: Yup.string().required('El canton es obligatorio!'),
         district: Yup.string().required('El distrito es obligatorio!'),
@@ -61,7 +63,7 @@ const Profile = () => {
             .then(data => setProvinces(Object.entries(data)))
     }, [])
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const loadData = async () => {
             setData(await getData(token))
         }

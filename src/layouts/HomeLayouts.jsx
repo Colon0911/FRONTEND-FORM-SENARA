@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faDoorOpen, faCalendar } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../hooks/useAuth'
+import { compareDates } from '../helpers/compareDates'
 
 const HomeLayouts = () => {
-  const { user, logout } = useAuth()
+  const { user, expiresIn, logout } = useAuth()
 
+  if (compareDates(expiresIn)) { logout }
   if (!user) return <Navigate to="/" />
 
   return (

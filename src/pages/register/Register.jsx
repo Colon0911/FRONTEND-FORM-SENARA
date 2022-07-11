@@ -12,7 +12,11 @@ import Logo from '../../components/Logo';
 const Register = () => {
     const registerSchema = Yup.object().shape({
         identificationType: Yup.string().required('Tipo de Cédula obligatorio!'),
-        identification: Yup.string().required('La cédula es obligatoria!'),
+        identification: Yup.string().when('identificationType', {
+            is: 'physical',
+            then: Yup.string().min(9, 'Minimo 9 digitos!').max(9, 'Maximo 9 digitos!').required('La cédula es obligatoria!'),
+            otherwise: Yup.string().min(10, 'Minimo 10 digitos!').max(10, 'Maximo 10 digitos!').required('La cédula jurídica es obligatoria!')
+        }),
         fullName: Yup.string()
             .min(3, 'El nombre es muy corto')
             .max(40, 'El nombre es muy largo')

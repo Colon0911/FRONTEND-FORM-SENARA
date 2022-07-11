@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Formik, Form, Field, FieldArray } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,18 +8,19 @@ import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../../hooks/useAuth'
 import { getData } from '../../helpers/loadUserData'
+import { compareDates } from '../../helpers/compareDates'
 
 import Crops from './Crops'
 
 const FormPlanRiego = () => {
-    const { user, token } = useAuth()
+    const { user, token, expiresIn, logout } = useAuth()
 
+    if (!compareDates(expiresIn)) logout()
     if (!user) return <Navigate to="/" />
 
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [currentDate, setCurrentDate] = useState(new Date())
-    const [counter, setCounter] = useState([0])
 
     const planRiegoSchema = Yup.object().shape({
         date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
@@ -34,8 +35,6 @@ const FormPlanRiego = () => {
         }, 500);
         loadData()
     }, [])
-
-    const newCrop = () => setCounter(...counter, 0)
 
     const handleSubmit = (values) => {
         console.log(values)

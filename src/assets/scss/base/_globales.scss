@@ -108,7 +108,7 @@ img {
   transition: 0.5s;
   outline: none;
 
-  padding-left: 2rem;
+  padding-left: 1rem;
   background-color: v.$grisClaro;
 }
 
@@ -124,8 +124,8 @@ label {
   //font-weight: 600;
   position: absolute;
   pointer-events: none;
-  left: 6px;
-  top: 6px;
+  left: 1rem;
+  top: 25%;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
