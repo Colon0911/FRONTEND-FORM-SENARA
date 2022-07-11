@@ -1,8 +1,28 @@
 import React from 'react'
 import { jsPDF } from 'jspdf'
+import { date } from 'yup/lib/locale'
 
-export const PDFSolicitudRiego = () => {
+export const PDFSolicitudRiego = (obj) => {
   const doc = new jsPDF()
+  let monthNames = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ]
+
+  let fecha = new Date(obj.fechaReciboRiego)
+  let dia = fecha.getUTCDate()
+  let mes = monthNames[fecha.getMonth()]
+  let anio = fecha.getFullYear()
 
   doc.setFont('times', 'normal')
   doc.setFontSize(14)
@@ -12,18 +32,20 @@ export const PDFSolicitudRiego = () => {
   doc.text('Señores', 20, 50)
   doc.text('SENARA', 20, 55)
   doc.text('Cañas', 20, 60)
-  doc.text(
-    'Yo,_______________________________, Cédula:______________________________ ,',
-    20,
-    70
-  )
+  doc.text('Yo, , Cédula:______________________________ ,', 20, 70)
   doc.text(
     'Telefonos___________________, Direccion exacta______________________________,',
     20,
     75
   )
   doc.text(
-    'dueño de la parcela Nº___________del Proyecto__________del Subdistrito_____________,',
+    'dueño de la parcela Nº ' +
+      obj.nParcela +
+      ' del Proyecto ' +
+      obj.proyecto +
+      'del Subdistrito ' +
+      obj.subDistrito +
+      ',',
     20,
     80
   )
@@ -34,20 +56,31 @@ export const PDFSolicitudRiego = () => {
   )
   doc.text('el servicio de riego durante el presente semestre.', 20, 90)
   doc.text(
-    'Datos de la parcela: Área____________ha, Cultivo______________, Variedad____________,',
+    'Datos de la parcela: Área ' +
+      obj.area +
+      ' ha, Cultivo ' +
+      obj.cultivo +
+      ', Variedad ' +
+      obj.variedad +
+      ',',
     20,
     100
   )
-  doc.text('Rendimiento anterior _____________________.', 20, 105)
+  doc.text('Rendimiento anterior ' + obj.rendimientoAnterior + '.', 20, 105)
 
   doc.text(
-    'Me comprometo a preparar la infraestructura para recibir el riego el día____de_____________',
+    'Me comprometo a preparar la infraestructura para recibir el riego el día ' +
+      dia +
+      ' de ' +
+      mes,
     20,
     115
   )
 
   doc.text(
-    'del 20____, según lo estipulado en el Reglamento de servicio de Riego del Distrito de ',
+    'del ' +
+      anio +
+      ', según lo estipulado en el Reglamento de servicio de Riego del Distrito de ',
     20,
     120
   )
@@ -57,20 +90,16 @@ export const PDFSolicitudRiego = () => {
     125
   )
 
-  doc.text('Atentamente,', 20, 135)
+  doc.text('Atentamente ,', 20, 135)
   doc.text('Firma: _______________________________________', 20, 145)
-  doc.text('Fax: _________________________________________', 20, 155)
+  doc.text('Fax: ' + obj.fax + '', 20, 155)
   doc.text(
-    'Dirección para notificaciones:________________________________________________',
+    'Dirección para notificaciones: ' + obj.email + '',
 
     20,
     165
   )
-  doc.text(
-    'Observaciones:______________________________________________________',
-    20,
-    175
-  )
+  doc.text('Observaciones: ' + obj.observaciones + '', 20, 175)
 
   doc.save('PDFprueba.pdf')
 }

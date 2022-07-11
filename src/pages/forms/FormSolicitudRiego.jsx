@@ -39,9 +39,7 @@ const FormSolicitudRiego = () => {
   })
 
   const handleSubmit = (values) => {
-    const formData = {}
-
-    console.log(formData)
+    PDFSolicitudRiego(values)
   }
 
   return (
@@ -250,7 +248,6 @@ const FormSolicitudRiego = () => {
                 <button type="submit" className="senara-btn-primary">
                   Hacer Solicitud
                 </button>
-                <button onClick={PDFSolicitudRiego}> Descargar</button>
               </Form>
             )
           }}
