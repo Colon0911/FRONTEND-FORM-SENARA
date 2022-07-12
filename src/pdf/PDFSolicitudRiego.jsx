@@ -24,11 +24,29 @@ export const PDFSolicitudRiego = (obj) => {
   let mes = monthNames[fecha.getMonth()]
   let anio = fecha.getFullYear()
 
+  function dateNow() {
+    let date = new Date()
+
+    let day = date.getDate()
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
+
+    let finaldate
+
+    if (month < 10) {
+      finaldate = `${day}-0${month}-${year}`
+      return finaldate
+    } else {
+      finaldate = `${day}-${month}-${year}`
+      return finaldate
+    }
+  }
+
   doc.setFont('times', 'normal')
   doc.setFontSize(14)
   doc.text('Formulario Solicitud de Servicio de Riego', 65, 20)
   doc.setFontSize(12)
-  doc.text('Fecha: _________________________', 20, 40)
+  doc.text('Fecha: ' + dateNow() + '', 20, 40)
   doc.text('Señores', 20, 50)
   doc.text('SENARA', 20, 55)
   doc.text('Cañas', 20, 60)
