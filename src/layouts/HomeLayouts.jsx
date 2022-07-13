@@ -8,7 +8,7 @@ import { compareDates } from '../helpers/compareDates'
 const HomeLayouts = () => {
   const { user, expiresIn, logout } = useAuth()
 
-  if (compareDates(expiresIn)) { logout }
+  if (!compareDates(expiresIn)) logout()
   if (!user) return <Navigate to="/" />
 
   return (

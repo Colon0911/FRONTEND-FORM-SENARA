@@ -67,10 +67,10 @@ const Profile = () => {
         const loadData = async () => {
             setData(await getData(token))
         }
+        loadData()
         setTimeout(() => {
             setLoading(true)
         }, 500);
-        loadData()
     }, [])
 
     const handleSubmit = async (values) => {
@@ -81,9 +81,10 @@ const Profile = () => {
             canton: statusCanton
         }
 
-        const id = getIdentification(token)
-        const res = await updateUser(id, values, token)
-        console.log(res)
+        console.log(values)
+        // const id = getIdentification(token)
+        // const res = await updateUser(id, values, token)
+        // console.log(res)
     }
 
     return (
@@ -94,11 +95,11 @@ const Profile = () => {
             <div className="senara-forms">
                 <Formik
                     initialValues={{
-                        phone: '',
-                        province: '',
-                        canton: '',
-                        district: '',
-                        exactAddress: ''
+                        phone: data?.phone ?? '',
+                        province: data?.province ?? '',
+                        canton: data?.canton ?? '',
+                        district: data?.district ?? '',
+                        exactAddress: data?.exactAddress ?? ''
                     }}
                     onSubmit={values => handleSubmit(values)}
                     validationSchema={profileSchema}
