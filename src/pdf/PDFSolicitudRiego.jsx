@@ -52,7 +52,7 @@ export const PDFSolicitudRiego = (obj) => {
   doc.text('Cañas', 20, 60)
   doc.text('Yo, , Cédula:______________________________ ,', 20, 70)
   doc.text(
-    'Telefonos___________________, Direccion exacta______________________________,',
+    'Telefonos ' + obj.phone + ', Direccion exacta ' + obj.exactAddress + ',',
     20,
     75
   )
