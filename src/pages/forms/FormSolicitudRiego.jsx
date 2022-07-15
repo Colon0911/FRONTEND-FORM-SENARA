@@ -86,7 +86,7 @@ const FormSolicitudRiego = () => {
                         placeholder=""
                         className="floating-input"
                       />
-                      <label> Numero de Parcela </label>
+                      <label> Nº Parcela </label>
                       <span className="highlight"></span>
                       <FontAwesomeIcon icon={faAddressCard} />
                     </div>
@@ -101,7 +101,7 @@ const FormSolicitudRiego = () => {
                         placeholder=""
                         className="floating-input"
                       />
-                      <label> Nombre del Proyecto </label>
+                      <label> Proyecto </label>
                       <span className="highlight"></span>
                       <FontAwesomeIcon icon={faAddressCard} />
                     </div>
@@ -223,52 +223,55 @@ const FormSolicitudRiego = () => {
                     <FontAwesomeIcon icon={faCalendarDays} />
                   </div>
 
-                  <div className="senara-form-group">
-                    {errors.phone && touched.phone ? (
-                      <div className="a-alert">{errors.phone}</div>
-                    ) : null}
-                    <Field
-                      id="phone"
-                      name="phone"
-                      type="text"
-                      placeholder=""
-                      className="floating-input"
-                    />
-                    <label>Teléfono</label>
-                    <span className="highlight"></span>
-                    <FontAwesomeIcon icon={faPhone} />
+                  <div className="forms-content-group-item">
+                    <div className="senara-form-group">
+                      {errors.phone && touched.phone ? (
+                        <div className="a-alert">{errors.phone}</div>
+                      ) : null}
+                      <Field
+                        id="phone"
+                        name="phone"
+                        type="text"
+                        placeholder=""
+                        className="floating-input"
+                      />
+                      <label>Teléfono</label>
+                      <span className="highlight"></span>
+                      <FontAwesomeIcon icon={faPhone} />
+                    </div>
+
+                    <div className="senara-form-group">
+                      {errors.fax && touched.fax ? (
+                        <div className="a-alert">{errors.fax}</div>
+                      ) : null}
+                      <Field
+                        id="fax"
+                        name="fax"
+                        type="text"
+                        placeholder=""
+                        className="floating-input"
+                      ></Field>
+                      <label>Fax</label>
+                      <span className="highlight"></span>
+                      <FontAwesomeIcon icon={faPhone} />
+                    </div>
+                    <div className="senara-form-group">
+                      {errors.email && touched.email ? (
+                        <div className="a-alert">{errors.email}</div>
+                      ) : null}
+                      <Field
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder=""
+                        className="floating-input"
+                      />
+                      <label>Correo</label>
+                      <span className="highlight"></span>
+                      <FontAwesomeIcon icon={faEnvelope} />
+                    </div>
                   </div>
 
-                  <div className="senara-form-group">
-                    {errors.fax && touched.fax ? (
-                      <div className="a-alert">{errors.fax}</div>
-                    ) : null}
-                    <Field
-                      id="fax"
-                      name="fax"
-                      type="text"
-                      placeholder=""
-                      className="floating-input"
-                    ></Field>
-                    <label>Fax</label>
-                    <span className="highlight"></span>
-                    <FontAwesomeIcon icon={faPhone} />
-                  </div>
-                  <div className="senara-form-group">
-                    {errors.email && touched.email ? (
-                      <div className="a-alert">{errors.email}</div>
-                    ) : null}
-                    <Field
-                      id="email"
-                      name="email"
-                      type="text"
-                      placeholder=""
-                      className="floating-input"
-                    />
-                    <label>Correo</label>
-                    <span className="highlight"></span>
-                    <FontAwesomeIcon icon={faEnvelope} />
-                  </div>
                   <div className="senara-form-group">
                     {errors.observaciones && touched.observaciones ? (
                       <div className="a-alert">{errors.observaciones}</div>
