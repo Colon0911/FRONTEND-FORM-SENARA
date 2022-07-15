@@ -51,7 +51,7 @@ const Profile = () => {
         loadData()
         setTimeout(() => {
             setLoading(true)
-        }, 1500)
+        }, 1000)
     }, [])
 
     useEffect(() => {
@@ -65,9 +65,8 @@ const Profile = () => {
     }, [data])
 
     const onSubmit = async (values) => {
-        console.log(values)
-        // const id = getIdentification(token)
-        // const res = await updateUser(id, values, token)
+        const id = getIdentification(token)
+        const res = await updateUser(id, values, token)
     }
 
     return (
