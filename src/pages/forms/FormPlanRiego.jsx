@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
@@ -11,6 +11,7 @@ import { getData } from '../../helpers/loadUserData'
 import { compareDates } from '../../helpers/compareDates'
 
 import Crops from './Crops'
+// import { getHydraulicSector } from '../../helpers/loadPlace'
 
 const FormPlanRiego = () => {
     const { user, token, expiresIn, logout } = useAuth()
@@ -21,10 +22,26 @@ const FormPlanRiego = () => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [currentDate, setCurrentDate] = useState(new Date())
+    const [sectors, setSectors] = useState()
+    const [subDistricts, setSubDistricts] = useState()
 
     const planRiegoSchema = Yup.object().shape({
         date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
     })
+
+    const loadSectors = (e, setFieldValue) => {
+        const subID = e.target.value
+        setFieldValue('subDistrict', subID)
+        fetch('http://192.168.10.182:8080/getAllSectoresHidraulicos')
+            .then(e => e.json())
+            .then(res => setSectors(res.data.filter(e => e.idSubdistrito === String(subID))))
+    }
+
+    useEffect(() => {
+        fetch('http://192.168.10.182:8080/getAllSubdistrito')
+            .then(e => e.json())
+            .then(res => setSubDistricts(res.data))
+    }, [])
 
     useLayoutEffect(() => {
         const loadData = async () => {
@@ -48,6 +65,11 @@ const FormPlanRiego = () => {
             <div className="senara-forms">
                 <Formik
                     initialValues={{
+                        standardNumber: '',
+                        subDistrict: '',
+                        hydraulicSector: '',
+                        irrigableSurface: '',
+                        date: '',
                         crops: [
                             {
                                 cultivo: '',
@@ -56,20 +78,21 @@ const FormPlanRiego = () => {
                                 fecha: ''
                             }
                         ],
-                        date: ''
                     }}
                     onSubmit={values => handleSubmit(values)}
                     validationSchema={planRiegoSchema}
                 >
-                    {({ errors, touched, values }) => {
+                    {({ errors, touched, values, setFieldValue }) => {
                         return (
                             <Form className="forms-container">
                                 {loading
                                     ?
                                     <>
                                         <div className="forms-content-group">
-                                            <fieldset>
-                                                <legend>Información Personal</legend>
+                                            {/* <fieldset> */}
+                                            {/* <legend>Información Personal</legend> */}
+                                            {data.identificationType === 'physical'
+                                                ?
                                                 <div className="forms-content-group-item">
                                                     <div className="senara-form-group">
                                                         <Field
@@ -79,6 +102,7 @@ const FormPlanRiego = () => {
                                                             value={data.fullName}
                                                             className="floating-input"
                                                             placeholder=" "
+                                                            disabled
                                                         />
                                                         <span className="highlight"></span>
                                                         <label> Nombre Completo </label>
@@ -89,15 +113,17 @@ const FormPlanRiego = () => {
                                                             id="identification"
                                                             name="identification"
                                                             type="text"
+                                                            value={data.identification}
                                                             className="floating-input"
                                                             placeholder=" "
+                                                            disabled
                                                         />
                                                         <span className="highlight"></span>
                                                         <label> Identificación </label>
                                                         <FontAwesomeIcon icon={faAddressCard} />
                                                     </div>
                                                 </div>
-
+                                                :
                                                 <div className="forms-content-group-item">
                                                     <div className="senara-form-group">
                                                         <Field
@@ -124,7 +150,9 @@ const FormPlanRiego = () => {
                                                         <FontAwesomeIcon icon={faAddressCard} />
                                                     </div>
                                                 </div>
-                                            </fieldset>
+                                            }
+
+                                            {/* </fieldset> */}
 
                                             <div className="forms-content-group-item">
                                                 <div className="senara-form-group">
@@ -141,28 +169,43 @@ const FormPlanRiego = () => {
                                                 </div>
 
                                                 <div className="senara-form-group">
-                                                    <Field
-                                                        id="hydraulicSector"
-                                                        name="hydraulicSector"
-                                                        type="text"
-                                                        className="floating-input"
-                                                        placeholder=" "
-                                                    />
-                                                    <span className="highlight"></span>
-                                                    <label> Sector Hidraulico </label>
-                                                    <FontAwesomeIcon icon={faAddressCard} />
-                                                </div>
-                                                <div className="senara-form-group">
+                                                    {errors.subDistrict && touched.subDistrict ? (
+                                                        <div className="a-alert">{errors.subDistrict}</div>
+                                                    ) : null}
                                                     <Field
                                                         id="subDistrict"
                                                         name="subDistrict"
-                                                        type="text"
-                                                        className="floating-input"
-                                                        placeholder=" "
-                                                    />
-                                                    <span className="highlight"></span>
-                                                    <label> Subdistrito </label>
-                                                    <FontAwesomeIcon icon={faAddressCard} />
+                                                        as="select"
+                                                        multiple={false}
+                                                        className="floating-select"
+                                                        onChange={e => loadSectors(e, setFieldValue)}
+                                                    >
+                                                        <option value=""> Seleccione un Sub-Distrito </option>
+                                                        {subDistricts &&
+                                                            subDistricts.map((value, key) => {
+                                                                return <option key={key} value={value.id}> {value.subdistrito} </option>
+                                                            })
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                <div className="senara-form-group">
+                                                    {errors.hydraulicSector && touched.hydraulicSector ? (
+                                                        <div className="a-alert">{errors.hydraulicSector}</div>
+                                                    ) : null}
+                                                    <Field
+                                                        id="hydraulicSector"
+                                                        name="hydraulicSector"
+                                                        as="select"
+                                                        multiple={false}
+                                                        className="floating-select"
+                                                    >
+                                                        <option value=""> Seleccione un Sector Hidraulico </option>
+                                                        {sectors &&
+                                                            sectors.map((value, key) => {
+                                                                return <option key={key} value={value.id}> {value.sector} </option>
+                                                            })
+                                                        }
+                                                    </Field>
                                                 </div>
                                             </div>
 
@@ -193,26 +236,13 @@ const FormPlanRiego = () => {
                                                 <FontAwesomeIcon icon={faAddressCard} />
                                             </div>
 
-                                            {/* <div className="senara-form-group">
-                                                <Field
-                                                    id="cycle"
-                                                    name="cycle"
-                                                    type="text"
-                                                    className="floating-input"
-                                                    placeholder=" "
-                                                />
-                                                <span className="highlight"></span>
-                                                <label> Superficie Regable </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
-                                            </div> */}
-
                                             {/* CROPS HERE */}
 
                                             <Crops touched={touched} errors={errors} values={values} />
 
                                             {/* CROPS END HERE */}
 
-                                            <div className="senara-form-group">
+                                            {/* <div className="senara-form-group">
                                                 <Field
                                                     id="signatureOrID"
                                                     name="signatureOrID"
@@ -223,7 +253,7 @@ const FormPlanRiego = () => {
                                                 <span className="highlight"></span>
                                                 <label> Firma o Identificación </label>
                                                 <FontAwesomeIcon icon={faAddressCard} />
-                                            </div>
+                                            </div> */}
 
                                             <div className="senara-form-group">
                                                 <Field
@@ -232,6 +262,7 @@ const FormPlanRiego = () => {
                                                     type="tel"
                                                     className="floating-input"
                                                     placeholder=" "
+                                                    value={data.phone}
                                                 />
                                                 <span className="highlight"></span>
                                                 <label> Teléfono </label>
@@ -240,11 +271,12 @@ const FormPlanRiego = () => {
 
                                             <div className="senara-form-group">
                                                 <Field
-                                                    id="direction"
-                                                    name="direction"
+                                                    id="exactAddress"
+                                                    name="exactAddress"
                                                     type="text"
                                                     className="floating-input"
                                                     placeholder=" "
+                                                    value={data.exactAddress}
                                                 />
                                                 <span className="highlight"></span>
                                                 <label> Dirección </label>
@@ -258,6 +290,7 @@ const FormPlanRiego = () => {
                                                     type="email"
                                                     className="floating-input"
                                                     placeholder=" "
+                                                    value={data.email}
                                                 />
                                                 <span className="highlight"></span>
                                                 <label> Correo Electronico </label>
