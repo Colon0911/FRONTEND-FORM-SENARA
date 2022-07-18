@@ -24,8 +24,9 @@ const FormDeQuejas = () => {
   const profileSchema = Yup.object().shape({
 
     nombreDelArrendatario: Yup.string().required(
-      'El Nombre del Arrendatario es obligatorio!'
+      'El Nombre es obligatorio!'
     ),
+    tipoUsuario: Yup.string().required('Tipo de Usuario obligatorio!'),
     telArrendatario: Yup.string().required('El teléfono es obligatorio!'),
     lugar: Yup.string().required('El Lugar es obligatorio!'),
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
@@ -43,10 +44,10 @@ const FormDeQuejas = () => {
 
   const [subDistrito, setSubDistrito] = useState()
 
-  const [hourNow, sethourNow] = useState(null)
-  const checkHour = () => {
-    sethourNow(new Date().toLocaleTimeString())
-  }
+  const [hourNow, sethourNow] = useState(new Date().toLocaleTimeString())
+  // const checkHour = () => {
+  //   sethourNow(new Date().toLocaleTimeString())
+  // }
 
 
 
@@ -89,39 +90,10 @@ const FormDeQuejas = () => {
 
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
-                      {errors.date && touched.date ? (
-                        <div className="a-alert">{errors.date}</div>
-                      ) : null}
-                      <Field
-                        id="fecha"
-                        name="fecha"
-                        type="text"
-                        className="floating-input"
-                        disabled
-                        value={date}
-                      />
-                      <label> Fecha </label>
-                    </div>
-
-                    <div className="senara-form-group">
-                      {errors.time && touched.time ? (
-                        <div className="a-alert">{errors.time}</div>
-                      ) : null}
-                      <Field
-                        id="time"
-                        name="time"
-                        type="text"
-                        className="floating-input"
-                        disabled
-                        value={hourNow}
-                      />
-                      <label> Hora</label>
+                      <p><small>{date}{" "}{hourNow}</small></p>
+                      <p><small></small></p>
                     </div>
                   </div>
-
-
-
-
 
 
                   <div className="forms-content-group-item">
@@ -156,7 +128,7 @@ const FormDeQuejas = () => {
                         className="floating-input"
                       />
                       <span className="highlight"></span>
-                      <label> Nombre del Arrendatario </label>
+                      <label> Nombre</label>
                       <FontAwesomeIcon icon={faAddressCard} />
                     </div>
 
@@ -179,8 +151,8 @@ const FormDeQuejas = () => {
 
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
-                      {errors.tipoUsuario && touched.tipoUsuario ? (
-                        <div className="a-alert">{errors.tipoUsuario}</div>
+                      {errors.lugar && touched.lugar ? (
+                        <div className="a-alert">{errors.lugar}</div>
                       ) : null}
                       <Field
                         id="lugar"
@@ -197,6 +169,7 @@ const FormDeQuejas = () => {
                           })
                         }
                       </Field>
+                      <span className="highlight"></span>
                     </div>
 
                     <div className="senara-form-group">
@@ -242,7 +215,7 @@ const FormDeQuejas = () => {
                         placeholder=""
                         className="floating-textarea"
                       />
-                      <span className="highlight"></span>
+
                       <label> Exponga su problemática </label>
                     </div>
                   </div>
