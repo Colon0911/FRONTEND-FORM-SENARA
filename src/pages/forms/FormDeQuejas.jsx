@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useOutletContext } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 
@@ -17,16 +17,16 @@ import { useAuth } from '../../hooks/useAuth'
 const FormDeQuejas = () => {
   const { user } = useAuth()
 
+
+
   if (!user) return <Navigate to="/" />
 
   const profileSchema = Yup.object().shape({
-    nombreDelPropietario: Yup.string().required(
-      'El Nombre del Propietario es obligatorio!'
-    ),
-    telPropietario: Yup.string().required('El teléfono es obligatorio!'),
+
     nombreDelArrendatario: Yup.string().required(
-      'El Nombre del Arrendatario es obligatorio!'
+      'El Nombre es obligatorio!'
     ),
+    tipoUsuario: Yup.string().required('Tipo de Usuario obligatorio!'),
     telArrendatario: Yup.string().required('El teléfono es obligatorio!'),
     lugar: Yup.string().required('El Lugar es obligatorio!'),
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
@@ -40,7 +40,28 @@ const FormDeQuejas = () => {
     cedula: Yup.string().required('El Nº cédula es obligatorio!'),
   })
 
-  //   const [data, setData] = useOutletContext()
+  let date = new Date().toLocaleDateString()
+
+  const [subDistrito, setSubDistrito] = useState()
+
+  const [hourNow, sethourNow] = useState(new Date().toLocaleTimeString())
+  // const checkHour = () => {
+  //   sethourNow(new Date().toLocaleTimeString())
+  // }
+
+
+
+  useEffect(() => {
+    fetch('http://192.168.10.182:8080/getAllSubdistrito')
+      .then(e => e.json())
+      .then(res => setSubDistrito(res.data))
+  }, [])
+
+  // console.log(subDistrito)
+
+  // setInterval(() => {
+  //   checkHour()
+  // }, 10000);
 
   const handleSubmit = (values) => {
     const formData = {}
@@ -56,11 +77,7 @@ const FormDeQuejas = () => {
       <div className="senara-forms">
         <Formik
           initialValues={{
-            phone: '',
-            province: '',
-            canton: '',
-            district: '',
-            exactAddress: '',
+
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}
@@ -68,77 +85,38 @@ const FormDeQuejas = () => {
           {({ errors, touched }) => {
             return (
               <Form className="forms-container">
+
                 <div className="forms-content-group">
-                  <div className="forms-content-group-item">
-                    <div className="senara-form-group">
-                      {errors.date && touched.date ? (
-                        <div className="senara-actions">{errors.date}</div>
-                      ) : null}
-                      <Field
-                        id="date"
-                        name="date"
-                        type="date"
-                        className="floating-input"
-                      />
-                      <span className="highlight"></span>
-                      <label> Fecha </label>
-                    </div>
-                    <div className="senara-form-group">
-                      {errors.time && touched.time ? (
-                        <div className="senara-actions">{errors.time}</div>
-                      ) : null}
-                      <Field
-                        id="time"
-                        name="time"
-                        type="time"
-                        className="floating-input"
-                      />
-                      <span className="highlight"></span>
-                      <label> Hora</label>
-                    </div>
-                  </div>
 
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
-                      {errors.nombreDelPropietario &&
-                      touched.nombreDelPropietario ? (
-                        <div className="senara-actions">
-                          {errors.nombreDelPropietario}
-                        </div>
-                      ) : null}
-                      <Field
-                        id="nombreDelPropietario"
-                        name="nombreDelPropietario"
-                        type="text"
-                        placeholder=""
-                        className="floating-input"
-                      />
-                      <span className="highlight"></span>
-                      <label> Nombre del Propietario </label>
-                    </div>
-                    <div className="senara-form-group">
-                      {errors.telPropietario && touched.telPropietario ? (
-                        <div className="senara-actions">
-                          {errors.telPropietario}
-                        </div>
-                      ) : null}
-                      <Field
-                        id="telPropietario"
-                        name="telPropietario"
-                        type="tel"
-                        placeholder=""
-                        className="floating-input"
-                      />
-                      <FontAwesomeIcon icon={faPhone} />
-                      <span className="highlight"></span>
-                      <label> Teléfono </label>
+                      <p><small>{date}{" "}{hourNow}</small></p>
+                      <p><small></small></p>
                     </div>
                   </div>
+
+
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
+                      {errors.tipoUsuario && touched.tipoUsuario ? (
+                        <div className="a-alert">{errors.tipoUsuario}</div>
+                      ) : null}
+                      <Field
+                        id="tipoUsuario"
+                        name="tipoUsuario"
+                        as="select"
+                        multiple={false}
+                        className="floating-select"
+                      >
+                        <option value=""> Seleccione Tipo de Usuario </option>
+                        <option value="Propietario">Propietario</option>
+                        <option value="Arrendatario">Arrendatario</option>
+                      </Field>
+                    </div>
+                    <div className="senara-form-group">
                       {errors.nombreDelArrendatario &&
-                      touched.nombreDelArrendatario ? (
-                        <div className="senara-actions">
+                        touched.nombreDelArrendatario ? (
+                        <div className="a-alert">
                           {errors.nombreDelArrendatario}
                         </div>
                       ) : null}
@@ -150,13 +128,13 @@ const FormDeQuejas = () => {
                         className="floating-input"
                       />
                       <span className="highlight"></span>
-                      <label> Nombre del Arrendatario </label>
+                      <label> Nombre</label>
+                      <FontAwesomeIcon icon={faAddressCard} />
                     </div>
+
                     <div className="senara-form-group">
                       {errors.telArrendatario && touched.telArrendatario ? (
-                        <div className="senara-actions">
-                          {errors.telArrendatario}
-                        </div>
+                        <div className="a-alert">{errors.telArrendatario}</div>
                       ) : null}
                       <Field
                         id="telArrendatario"
@@ -174,21 +152,29 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.lugar && touched.lugar ? (
-                        <div className="senara-actions">{errors.lugar}</div>
+                        <div className="a-alert">{errors.lugar}</div>
                       ) : null}
                       <Field
                         id="lugar"
                         name="lugar"
-                        type="text"
-                        placeholder=""
-                        className="floating-input"
-                      />
+                        as="select"
+                        multiple={false}
+                        className="floating-select"
+                      >
+                        <option value=""> Seleccione Lugar del Proyecto </option>
+                        {subDistrito &&
+                          subDistrito.map((value, key) => {
+
+                            return <option key={key} value={value.id}> {value.subdistrito} </option>
+                          })
+                        }
+                      </Field>
                       <span className="highlight"></span>
-                      <label> Lugar (proyecto)</label>
                     </div>
+
                     <div className="senara-form-group">
                       {errors.nParcela && touched.nParcela ? (
-                        <div className="senara-actions">{errors.nParcela}</div>
+                        <div className="a-alert">{errors.nParcela}</div>
                       ) : null}
                       <Field
                         id="nParcela"
@@ -200,9 +186,10 @@ const FormDeQuejas = () => {
                       <span className="highlight"></span>
                       <label> Nº Parcela </label>
                     </div>
+
                     <div className="senara-form-group">
                       {errors.nToma && touched.nToma ? (
-                        <div className="senara-actions">{errors.nToma}</div>
+                        <div className="a-alert">{errors.nToma}</div>
                       ) : null}
                       <Field
                         id="nToma"
@@ -219,9 +206,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.problematica && touched.problematica ? (
-                        <div className="senara-actions">
-                          {errors.problematica}
-                        </div>
+                        <div className="a-alert">{errors.problematica}</div>
                       ) : null}
                       <Field
                         as="textarea"
@@ -230,7 +215,7 @@ const FormDeQuejas = () => {
                         placeholder=""
                         className="floating-textarea"
                       />
-                      <span className="highlight"></span>
+
                       <label> Exponga su problemática </label>
                     </div>
                   </div>
@@ -238,7 +223,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.reportado && touched.reportado ? (
-                        <div className="senara-actions">{errors.reportado}</div>
+                        <div className="a-alert">{errors.reportado}</div>
                       ) : null}
                       <Field
                         id="reportado"
@@ -255,7 +240,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.respInst && touched.respInst ? (
-                        <div className="senara-actions">{errors.respInst}</div>
+                        <div className="a-alert">{errors.respInst}</div>
                       ) : null}
                       <Field
                         id="respInst"
@@ -275,7 +260,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.solucion && touched.solucion ? (
-                        <div className="senara-actions">{errors.solucion}</div>
+                        <div className="a-alert">{errors.solucion}</div>
                       ) : null}
                       <Field
                         id="solucion"
@@ -294,7 +279,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.aporte && touched.aporte ? (
-                        <div className="senara-actions">{errors.aporte}</div>
+                        <div className="a-alert">{errors.aporte}</div>
                       ) : null}
                       <Field
                         id="aporte"
@@ -313,9 +298,7 @@ const FormDeQuejas = () => {
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.nombreQuejoso && touched.nombreQuejoso ? (
-                        <div className="senara-actions">
-                          {errors.nombreQuejoso}
-                        </div>
+                        <div className="a-alert">{errors.nombreQuejoso}</div>
                       ) : null}
                       <Field
                         id="nombreQuejoso"
@@ -326,11 +309,12 @@ const FormDeQuejas = () => {
                       />
                       <span className="highlight"></span>
                       <label>Nombre del Quejoso</label>
+                      <FontAwesomeIcon icon={faAddressCard} />
                     </div>
 
                     <div className="senara-form-group">
                       {errors.cedula && touched.cedula ? (
-                        <div className="senara-actions">{errors.cedula}</div>
+                        <div className="a-alert">{errors.cedula}</div>
                       ) : null}
                       <Field
                         id="cedula"
@@ -341,6 +325,7 @@ const FormDeQuejas = () => {
                       />
                       <span className="highlight"></span>
                       <label>Nº Cédula</label>
+                      <FontAwesomeIcon icon={faAddressCard} />
                     </div>
                   </div>
 
