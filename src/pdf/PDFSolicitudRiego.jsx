@@ -51,7 +51,7 @@ export const PDFSolicitudRiego = (obj, data) => {
   doc.text('SENARA', 20, 55)
   doc.text('Cañas', 20, 60)
   doc.text(
-    'Yo, ' + data.fullName + ' , Cédula: ' + data.identification + ' ,',
+    'Yo, ' + data.fullName + ', Cédula: ' + data.identification + ',',
     20,
     70
   )
