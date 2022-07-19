@@ -58,7 +58,6 @@ const FormPlanRiego = () => {
   const handleSubmit = (values) => {
     console.log(values)
   }
-  console.log(data)
 
   return (
     <>

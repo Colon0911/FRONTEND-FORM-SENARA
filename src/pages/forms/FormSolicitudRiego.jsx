@@ -73,7 +73,6 @@ const FormSolicitudRiego = () => {
     }, 500)
     loadData()
   }, [])
-  console.log(data)
 
   const handleSubmit = (values) => {
     PDFSolicitudRiego(values, data)
