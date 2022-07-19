@@ -7,7 +7,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const Crops = ({ touched, errors, values }) => {
     return (
-        <div className="senara-form-group">
+        <div className="senara-form-group crops">
             <FieldArray name="crops">
                 {({ insert, remove, push }) => (
                     <div className='table-container'>
