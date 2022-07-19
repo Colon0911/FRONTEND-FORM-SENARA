@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, useOutletContext } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import { PDFSolicitudRiego } from '../../pdf/PDFSolicitudRiego'
+import { getData } from '../../helpers/loadUserData'
 
 import * as Yup from 'yup'
 
@@ -19,9 +20,11 @@ import {
 import { useAuth } from '../../hooks/useAuth'
 
 const FormSolicitudRiego = () => {
-  const { user } = useAuth()
+  const { user, token } = useAuth()
   const [subDistric, setSubDistric] = useState()
   const [Crops, setCrops] = useState()
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   if (!user) return <Navigate to="/" />
 
@@ -60,6 +63,17 @@ const FormSolicitudRiego = () => {
       .then((e) => e.json())
       .then((res) => setCrops(res.data))
   }, [])
+
+  useEffect(() => {
+    const loadData = async () => {
+      setData(await getData(token))
+    }
+    setTimeout(() => {
+      setLoading(true)
+    }, 500)
+    loadData()
+  }, [])
+  console.log(data)
 
   const handleSubmit = (values) => {
     PDFSolicitudRiego(values)
@@ -149,7 +163,6 @@ const FormSolicitudRiego = () => {
                               </option>
                             )
                           })}
-                        <span className="highlight"></span>
                       </Field>
                     </div>
                   </div>
