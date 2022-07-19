@@ -4,10 +4,11 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../../hooks/useAuth'
 import { getData } from '../../helpers/loadUserData'
+import { addPlan } from '../../services/formServices'
 import { compareDates } from '../../helpers/compareDates'
 
 import Crops from './Crops'
@@ -52,10 +53,13 @@ const FormPlanRiego = () => {
         }, 500);
         loadData()
     }, [])
+    console.log(data)
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         console.log(values)
+        const res = await addPlan(values, token)
     }
+
 
     return (
         <>
@@ -106,7 +110,7 @@ const FormPlanRiego = () => {
                                                         />
                                                         <span className="highlight"></span>
                                                         <label> Nombre Completo </label>
-                                                        <FontAwesomeIcon icon={faAddressCard} />
+                                                        <FontAwesomeIcon icon={faUser} />
                                                     </div>
                                                     <div className="senara-form-group">
                                                         <Field
@@ -130,20 +134,24 @@ const FormPlanRiego = () => {
                                                             id="nombreJuridico"
                                                             name="nombreJuridico"
                                                             type="text"
+                                                            value={data.fullName}
                                                             className="floating-input"
                                                             placeholder=" "
+                                                            disabled
                                                         />
                                                         <span className="highlight"></span>
                                                         <label> Persona Jurifica </label>
-                                                        <FontAwesomeIcon icon={faAddressCard} />
+                                                        <FontAwesomeIcon icon={faUser} />
                                                     </div>
                                                     <div className="senara-form-group">
                                                         <Field
                                                             id="cedulaJuridica"
                                                             name="cedulaJuridica"
                                                             type="text"
+                                                            value={data.identification}
                                                             className="floating-input"
                                                             placeholder=" "
+                                                            disabled
                                                         />
                                                         <span className="highlight"></span>
                                                         <label> Cedula Juridica </label>
@@ -165,7 +173,6 @@ const FormPlanRiego = () => {
                                                     />
                                                     <span className="highlight"></span>
                                                     <label> # Padrón </label>
-                                                    <FontAwesomeIcon icon={faAddressCard} />
                                                 </div>
 
                                                 <div className="senara-form-group">
@@ -219,12 +226,11 @@ const FormPlanRiego = () => {
                                                 />
                                                 <span className="highlight"></span>
                                                 <label> Superficie total Regable </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
                                             </div>
 
                                             <div className="senara-form-group">
                                                 {errors.date && touched.date ? (
-                                                    <div className="senara-actions">{errors.date}</div>
+                                                    <div className="a-alert">{errors.date}</div>
                                                 ) : null}
                                                 <Field
                                                     id="date"
@@ -232,8 +238,6 @@ const FormPlanRiego = () => {
                                                     type="date"
                                                     className="floating-input"
                                                 />
-                                                <span className="highlight"></span>
-                                                <FontAwesomeIcon icon={faAddressCard} />
                                             </div>
 
                                             {/* CROPS HERE */}
@@ -242,60 +246,50 @@ const FormPlanRiego = () => {
 
                                             {/* CROPS END HERE */}
 
-                                            {/* <div className="senara-form-group">
-                                                <Field
-                                                    id="signatureOrID"
-                                                    name="signatureOrID"
-                                                    type="text"
-                                                    className="floating-input"
-                                                    placeholder=" "
-                                                />
-                                                <span className="highlight"></span>
-                                                <label> Firma o Identificación </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
-                                            </div> */}
+                                            <div className="forms-content-group-item">
+                                                <div className="senara-form-group">
+                                                    <Field
+                                                        id="phone"
+                                                        name="phone"
+                                                        type="tel"
+                                                        className="floating-input"
+                                                        placeholder=" "
+                                                        value={data.phone}
+                                                    />
+                                                    <span className="highlight"></span>
+                                                    <label> Teléfono </label>
+                                                    <FontAwesomeIcon icon={faPhone} />
+                                                </div>
 
-                                            <div className="senara-form-group">
-                                                <Field
-                                                    id="phone"
-                                                    name="phone"
-                                                    type="tel"
-                                                    className="floating-input"
-                                                    placeholder=" "
-                                                    value={data.phone}
-                                                />
-                                                <span className="highlight"></span>
-                                                <label> Teléfono </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
+                                                <div className="senara-form-group">
+                                                    <Field
+                                                        id="exactAddress"
+                                                        name="exactAddress"
+                                                        type="text"
+                                                        className="floating-input"
+                                                        placeholder=" "
+                                                        value={data.exactAddress}
+                                                    />
+                                                    <span className="highlight"></span>
+                                                    <label> Dirección </label>
+                                                    <FontAwesomeIcon icon={faAddressCard} />
+                                                </div>
+
+                                                <div className="senara-form-group">
+                                                    <Field
+                                                        id="email"
+                                                        name="email"
+                                                        type="email"
+                                                        className="floating-input"
+                                                        placeholder=" "
+                                                        value={data.email}
+                                                    />
+                                                    <span className="highlight"></span>
+                                                    <label> Correo Electronico </label>
+                                                    <FontAwesomeIcon icon={faEnvelope} />
+                                                </div>
                                             </div>
 
-                                            <div className="senara-form-group">
-                                                <Field
-                                                    id="exactAddress"
-                                                    name="exactAddress"
-                                                    type="text"
-                                                    className="floating-input"
-                                                    placeholder=" "
-                                                    value={data.exactAddress}
-                                                />
-                                                <span className="highlight"></span>
-                                                <label> Dirección </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
-                                            </div>
-
-                                            <div className="senara-form-group">
-                                                <Field
-                                                    id="email"
-                                                    name="email"
-                                                    type="email"
-                                                    className="floating-input"
-                                                    placeholder=" "
-                                                    value={data.email}
-                                                />
-                                                <span className="highlight"></span>
-                                                <label> Correo Electronico </label>
-                                                <FontAwesomeIcon icon={faAddressCard} />
-                                            </div>
 
                                         </div>
                                         <button type="submit" className="senara-btn-primary">
