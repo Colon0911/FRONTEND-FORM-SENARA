@@ -2,7 +2,7 @@ import React from 'react'
 import { jsPDF } from 'jspdf'
 import { date } from 'yup/lib/locale'
 
-export const PDFSolicitudRiego = (obj) => {
+export const PDFSolicitudRiego = (obj, data) => {
   const doc = new jsPDF()
   let monthNames = [
     'Enero',
@@ -50,7 +50,11 @@ export const PDFSolicitudRiego = (obj) => {
   doc.text('Señores', 20, 50)
   doc.text('SENARA', 20, 55)
   doc.text('Cañas', 20, 60)
-  doc.text('Yo, , Cédula:______________________________ ,', 20, 70)
+  doc.text(
+    'Yo, ' + data.fullName + ' , Cédula: ' + data.identification + ' ,',
+    20,
+    70
+  )
   doc.text(
     'Telefonos ' + obj.phone + ', Direccion exacta ' + obj.exactAddress + ',',
     20,

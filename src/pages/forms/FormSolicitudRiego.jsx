@@ -76,7 +76,7 @@ const FormSolicitudRiego = () => {
   console.log(data)
 
   const handleSubmit = (values) => {
-    PDFSolicitudRiego(values)
+    PDFSolicitudRiego(values, data)
   }
 
   return (
