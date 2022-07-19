@@ -20,6 +20,8 @@ import { useAuth } from '../../hooks/useAuth'
 
 const FormSolicitudRiego = () => {
   const { user } = useAuth()
+  const [subDistric, setSubDistric] = useState()
+  const [Crops, setCrops] = useState()
 
   if (!user) return <Navigate to="/" />
 
@@ -27,19 +29,37 @@ const FormSolicitudRiego = () => {
     nParcela: Yup.string().required('Este campo es necesario'),
     proyecto: Yup.string().required('Este campo es necesario'),
     subDistrito: Yup.string().required('Este campo es necesario'),
-    area: Yup.string().required('Este campo es necesario'),
+    area: Yup.number()
+      .required('Este campo es necesario')
+      .typeError('Este campo es numerico'),
     cultivo: Yup.string().required('Este campo es necesario'),
     variedad: Yup.string().required('Este campo es necesario'),
     rendimientoAnterior: Yup.string().required('Este campo es necesario'),
     phone: Yup.string().required('Este campo es necesario'),
-    exactAddress: Yup.string().required('Este campo es necesario'),
-    fax: Yup.string().required('Este campo es necesario'),
+    exactAddress: Yup.string()
+      .required('Este campo es necesario')
+      .min(30, 'Minimo 30 caracteres')
+      .max(100, 'Maximo 100 caracteres'),
+    fax: Yup.string(),
     email: Yup.string()
       .required('Este campo es necesario')
       .email('Email no valido'),
-    observaciones: Yup.string().required('Este campo es necesario'),
+    observaciones: Yup.string()
+
+      .min(30, 'Minimo 30 caracteres')
+      .max(100, 'Maximo 100 caracteres'),
     fechaReciboRiego: Yup.date().required('Este campo es necesario'),
   })
+
+  useEffect(() => {
+    fetch('http://192.168.10.182:8080/getAllSubdistrito')
+      .then((e) => e.json())
+      .then((res) => setSubDistric(res.data))
+
+    fetch('http://192.168.10.182:8080/getAllCrop')
+      .then((e) => e.json())
+      .then((res) => setCrops(res.data))
+  }, [])
 
   const handleSubmit = (values) => {
     PDFSolicitudRiego(values)
@@ -74,6 +94,9 @@ const FormSolicitudRiego = () => {
             return (
               <Form className="forms-container">
                 <div className="forms-content-group">
+                  <legend className="senara-description-page">
+                    Datos de Parcela:
+                  </legend>
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.nParcela && touched.nParcela ? (
@@ -112,16 +135,27 @@ const FormSolicitudRiego = () => {
                       <Field
                         id="subDistrito"
                         name="subDistrito"
-                        type="text"
-                        placeholder=""
-                        className="floating-input"
-                      />
-                      <label>SubDistrito </label>
-                      <span className="highlight"></span>
-                      <FontAwesomeIcon icon={faAddressCard} />
+                        as="select"
+                        multiple={false}
+                        className="floating-select"
+                      >
+                        <option value=""> SubDistrito </option>
+                        {subDistric &&
+                          subDistric.map((value, key) => {
+                            return (
+                              <option key={key} value={value.subdistrito}>
+                                {' '}
+                                {value.subdistrito}{' '}
+                              </option>
+                            )
+                          })}
+                        <span className="highlight"></span>
+                      </Field>
                     </div>
                   </div>
-
+                  <legend className="senara-description-page">
+                    Datos del Cultivo:
+                  </legend>
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.area && touched.area ? (
@@ -145,13 +179,21 @@ const FormSolicitudRiego = () => {
                       <Field
                         id="cultivo"
                         name="cultivo"
-                        type="text"
-                        placeholder=""
-                        className="floating-input"
-                      />
-                      <label>Cultivo</label>
-                      <span className="highlight"></span>
-                      <FontAwesomeIcon icon={faAddressCard} />
+                        as="select"
+                        multiple={false}
+                        className="floating-select"
+                      >
+                        <option value=""> Cultivo </option>
+                        {Crops &&
+                          Crops.map((value, key) => {
+                            return (
+                              <option key={key} value={value.cultivo}>
+                                {' '}
+                                {value.cultivo}{' '}
+                              </option>
+                            )
+                          })}
+                      </Field>
                     </div>
                   </div>
 
@@ -222,7 +264,9 @@ const FormSolicitudRiego = () => {
                     <span className="highlight"></span>
                     <FontAwesomeIcon icon={faCalendarDays} />
                   </div>
-
+                  <legend className="senara-description-page">
+                    Datos de Contacto:
+                  </legend>
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.phone && touched.phone ? (

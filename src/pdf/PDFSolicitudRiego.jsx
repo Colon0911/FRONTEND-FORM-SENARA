@@ -62,7 +62,8 @@ export const PDFSolicitudRiego = (obj) => {
       ' del Proyecto ' +
       obj.proyecto +
       'del Subdistrito ' +
-      obj.subDistrito +
+      obj.subDistrito[0] +
+      obj.subDistrito.toLowerCase().slice(1) +
       ',',
     20,
     80
@@ -76,9 +77,10 @@ export const PDFSolicitudRiego = (obj) => {
   doc.text(
     'Datos de la parcela: Área ' +
       obj.area +
-      ' ha, Cultivo ' +
-      obj.cultivo +
-      ', Variedad ' +
+      ' ha, Cultivo: ' +
+      obj.cultivo[0] +
+      obj.cultivo.toLowerCase().slice(1) +
+      ', Variedad: ' +
       obj.variedad +
       ',',
     20,
