@@ -100,7 +100,7 @@ img {
   // background-color: transparent; // on
   border: none; // off
   //border-bottom: 1px solid #757575;
-  // border: 1px solid lighten(v.$grisOscuro, 30%); // on
+  border: 1px solid lighten(v.$grisOscuro, 30%); // on
   //border-radius: 20px 20px 20px 20px;
   border-radius: 3px;
   box-sizing: border-box;
@@ -185,7 +185,8 @@ label {
   overflow: hidden;
   overflow-x: hidden;
   border-radius: 2px;
-  border: none;
+  border: 1px solid lighten(v.$grisOscuro, 30%);
+
   background-color: v.$grisClaro;
   min-width: 100%;
   resize: none;
