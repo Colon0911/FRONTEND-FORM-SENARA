@@ -30,11 +30,7 @@ const FormDeQuejas = () => {
 
   const profileSchema = Yup.object().shape({
 
-    nombre: Yup.string().required(
-      'El Nombre es obligatorio!'
-    ),
     tipoUsuario: Yup.string().required('Tipo de Usuario obligatorio!'),
-    telefono: Yup.string().required('El teléfono es obligatorio!'),
     lugar: Yup.string().required('El Lugar es obligatorio!'),
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
     nToma: Yup.string().required('El Nº Toma es obligatorio!'),
@@ -42,9 +38,8 @@ const FormDeQuejas = () => {
     reportado: Yup.string().required('El campo es obligatorio!'),
     respInst: Yup.string().required('El campo es obligatorio!'),
     solucion: Yup.string().required('El campo es obligatorio!'),
-    aporte: Yup.string().required('El campo es obligatorio!'),
-    nombreQuejoso: Yup.string().required('El Nombre es obligatorio!'),
-    cedula: Yup.string().required('El Nº cédula es obligatorio!'),
+    aporte: Yup.string().required('El campo es obligatorio!')
+
   })
 
   let date = new Date().toLocaleDateString()
@@ -52,10 +47,7 @@ const FormDeQuejas = () => {
   const [subDistrito, setSubDistrito] = useState()
 
   const [hourNow, sethourNow] = useState(new Date().toLocaleTimeString())
-  // const checkHour = () => {
-  //   sethourNow(new Date().toLocaleTimeString())
-  // }
-  console.log(data)
+
   useLayoutEffect(() => {
     const loadData = async () => {
       setData(await getData(token))
@@ -72,15 +64,10 @@ const FormDeQuejas = () => {
       .then(res => setSubDistrito(res.data))
   }, [])
 
-  // console.log(subDistrito)
-
-  // setInterval(() => {
-  //   checkHour()
-  // }, 10000);
-
   const handleSubmit = async (values) => {
-    console.log(values)
-    const res = await agregarQueja(values, token)
+    const { fullName, phone, identification } = data
+    const nombreQuejoso = fullName
+    const res = await agregarQueja({ ...values, fullName, phone, identification, nombreQuejoso, hourNow }, token)
   }
 
   return (
@@ -92,8 +79,6 @@ const FormDeQuejas = () => {
         <Formik
           initialValues={{
             tipoUsuario: "",
-            nombre: "",
-            telefono: "",
             lugar: "",
             nParcela: "",
             nToma: "",
@@ -101,9 +86,7 @@ const FormDeQuejas = () => {
             reportado: "",
             respInst: "",
             solucion: "",
-            aporte: "",
-            nombreQuejoso: "",
-            cedula: ""
+            aporte: ""
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}
