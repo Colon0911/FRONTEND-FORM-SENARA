@@ -311,7 +311,7 @@ const FormSolicitudRiego = () => {
                         <Field
                           id="exactAddress"
                           name="exactAddress"
-                          type="textarea"
+                          as="textarea"
                           placeholder=""
                           className="floating-textarea"
                         />
