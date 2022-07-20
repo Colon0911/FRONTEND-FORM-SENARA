@@ -39,6 +39,7 @@ const Register = () => {
     const navigate = useNavigate()
 
     const [step, setStep] = useState(1)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     const nextStep = () => setStep(step + 1)
     // const previousStep = () => setStep(step - 1)
@@ -76,7 +77,7 @@ const Register = () => {
                 }}
                 validationSchema={registerSchema}
             >
-                {({ errors, touched }) => {
+                {({ errors, touched, values }) => {
                     return (
                         <>
                             <Form className='senara-form form-login'>
@@ -85,12 +86,17 @@ const Register = () => {
                                         <FirstStep
                                             errors={errors}
                                             touched={touched}
+                                            values={values}
                                             nextStep={nextStep}
                                         />
                                         <button
                                             type="button"
                                             onClick={nextStep}
                                             className="senara-btn-primary senara-form-group"
+                                            disabled={
+                                                (values.identificationType && values.identification && values.fullName && !errors.genre)
+                                                    ? false : true
+                                            }
                                         >
                                             Siguiente
                                         </button>

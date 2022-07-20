@@ -4,7 +4,7 @@ import { Field } from 'formik'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 
-const FirstStep = ({ errors, touched }) => {
+const FirstStep = ({ errors, touched, values }) => {
     return (
         <>
             <div className="senara-form-group">
@@ -18,11 +18,10 @@ const FirstStep = ({ errors, touched }) => {
                     multiple={false}
                     className="floating-select"
                 >
-                    <option value=""> Tipo Identificación </option>
+                    <option value="" disabled> Tipo Identificación </option>
                     <option value="physical"> Física </option>
                     <option value="legal"> Jurídica </option>
                 </Field>
-                <span className="highlight"></span>
             </div>
 
             <div className="senara-form-group">
@@ -67,12 +66,12 @@ const FirstStep = ({ errors, touched }) => {
                     as="select"
                     multiple={false}
                     className="floating-select"
+                    disabled={values.identificationType === 'legal' && true}
                 >
-                    <option value=""> Genero </option>
+                    <option value="" disabled> Genero </option>
                     <option value="female"> Femenino </option>
                     <option value="male"> Masculino </option>
                 </Field>
-                <span className="highlight"></span>
             </div>
         </>
     )

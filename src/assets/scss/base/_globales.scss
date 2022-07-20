@@ -66,12 +66,19 @@ img {
   align-self: center;
 }
 
+button:disabled {
+  pointer-events: none;
+  cursor: no-drop;
+  filter: grayscale(50%);
+  background-color: lighten(v.$azulOscuro, 30%);
+}
+
 .senara-form-group {
   position: relative;
   margin-bottom: 2.5rem;
 
-  > i,
-  > svg {
+  >i,
+  >svg {
     position: absolute;
     right: 10px;
     top: 7px;
@@ -132,8 +139,9 @@ label {
 }
 
 .floating-input {
-  &:focus ~ label,
-  &:not(:placeholder-shown) ~ label {
+
+  &:focus~label,
+  &:not(:placeholder-shown)~label {
     top: -18px;
     font-size: 14px;
     color: v.$azulOscuro;
@@ -141,8 +149,9 @@ label {
 }
 
 .floating-select {
-  &:focus ~ label,
-  &:not([value='']):valid ~ label {
+
+  &:focus~label,
+  &:not([value='']):valid~label {
     top: -18px;
     font-size: 14px;
     color: v.$azulOscuro;
@@ -151,14 +160,16 @@ label {
 
 /* active state */
 
-.floating-input:focus ~ .bar {
+.floating-input:focus~.bar {
+
   &:before,
   &:after {
     width: 50%;
   }
 }
 
-.floating-select:focus ~ .bar {
+.floating-select:focus~.bar {
+
   &:before,
   &:after {
     width: 50%;
@@ -206,8 +217,8 @@ label {
 
 /* active state */
 
-.floating-input:focus ~ .highlight,
-.floating-select:focus ~ .highlight {
+.floating-input:focus~.highlight,
+.floating-select:focus~.highlight {
   -webkit-animation: inputHighlighter 0.3s ease;
   -moz-animation: inputHighlighter 0.3s ease;
   animation: inputHighlighter 0.3s ease;

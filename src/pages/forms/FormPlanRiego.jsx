@@ -187,7 +187,7 @@ const FormPlanRiego = () => {
                                                         className="floating-select"
                                                         onChange={e => loadSectors(e, setFieldValue)}
                                                     >
-                                                        <option value=""> Seleccione un Sub-Distrito </option>
+                                                        <option value="" disabled> Seleccione un Sub-Distrito </option>
                                                         {subDistricts &&
                                                             subDistricts.map((value, key) => {
                                                                 return <option key={key} value={value.id}> {value.subdistrito} </option>
@@ -206,7 +206,7 @@ const FormPlanRiego = () => {
                                                         multiple={false}
                                                         className="floating-select"
                                                     >
-                                                        <option value=""> Seleccione un Sector Hidraulico </option>
+                                                        <option value="" disabled> Seleccione un Sector Hidraulico </option>
                                                         {sectors &&
                                                             sectors.map((value, key) => {
                                                                 return <option key={key} value={value.id}> {value.sector} </option>
