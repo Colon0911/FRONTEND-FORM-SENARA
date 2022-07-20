@@ -15,14 +15,14 @@
 
     .senara-content-principal {
         display: grid;
-        grid-template-rows: 210px 1fr;
+        grid-template-rows: 1fr 4fr;
 
         @include m.tablet {
-            grid-template-columns: 260px 1fr;
+            grid-template-columns: 1fr 2fr;
         }
 
         @include m.desktop {
-            grid-template-columns: 260px 1fr;
+            grid-template-columns: 1fr 4fr;
         }
     }
 
