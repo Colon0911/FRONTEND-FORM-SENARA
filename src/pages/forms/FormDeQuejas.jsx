@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -15,11 +17,16 @@ import {
 import { useAuth } from '../../hooks/useAuth'
 
 import { agregarQueja } from '../../services/formServices'
+import { getData } from '../../helpers/loadUserData'
 
 const FormDeQuejas = () => {
   const { user, token } = useAuth()
 
   if (!user) return <Navigate to="/" />
+
+
+  const [data, setData] = useState()
+  const [loading, setLoading] = useState(false)
 
   const profileSchema = Yup.object().shape({
 
@@ -48,8 +55,16 @@ const FormDeQuejas = () => {
   // const checkHour = () => {
   //   sethourNow(new Date().toLocaleTimeString())
   // }
-
-
+  console.log(data)
+  useLayoutEffect(() => {
+    const loadData = async () => {
+      setData(await getData(token))
+    }
+    loadData()
+    setTimeout(() => {
+      setLoading(true)
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     fetch('http://192.168.10.182:8080/getAllSubdistrito')
@@ -108,6 +123,7 @@ const FormDeQuejas = () => {
 
 
                   <div className="forms-content-group-item">
+
                     <div className="senara-form-group">
                       {errors.tipoUsuario && touched.tipoUsuario ? (
                         <div className="a-alert">{errors.tipoUsuario}</div>
@@ -119,26 +135,21 @@ const FormDeQuejas = () => {
                         multiple={false}
                         className="floating-select"
                       >
-                        <option value=""> Seleccione Tipo de Usuario </option>
-                        <option value="Propietario">Propietario</option>
-                        <option value="Arrendatario">Arrendatario</option>
+                        <option value="" disabled> Seleccione Tipo de Usuario </option>
+                        <option value="Propietario Registral">Propietario Registral</option>
+                        <option value="Productor">Productor</option>
                       </Field>
                     </div>
-                    <div className="senara-form-group">
-                      {errors.nombre &&
-                        touched.nombre ? (
-                        <div className="a-alert">
-                          {errors.nombre}
-                        </div>
-                      ) : null}
+                    <div className="senara-form-group" >
                       <Field
                         id="nombre"
                         name="nombre"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.fullName}
+                        disabled
                       />
-                      <span className="highlight"></span>
                       <label> Nombre</label>
                       <FontAwesomeIcon icon={faAddressCard} />
                     </div>
@@ -153,13 +164,13 @@ const FormDeQuejas = () => {
                         type="tel"
                         placeholder=""
                         className="floating-input"
+                        value={data?.phone}
+                        disabled
                       />
                       <FontAwesomeIcon icon={faPhone} />
-                      <span className="highlight"></span>
                       <label> Teléfono </label>
                     </div>
                   </div>
-
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.lugar && touched.lugar ? (
@@ -172,7 +183,7 @@ const FormDeQuejas = () => {
                         multiple={false}
                         className="floating-select"
                       >
-                        <option value=""> Seleccione Lugar del Proyecto </option>
+                        <option value="" disabled> Seleccione Lugar del Proyecto </option>
                         {subDistrito &&
                           subDistrito.map((value, key) => {
 
@@ -305,15 +316,14 @@ const FormDeQuejas = () => {
 
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
-                      {errors.nombreQuejoso && touched.nombreQuejoso ? (
-                        <div className="a-alert">{errors.nombreQuejoso}</div>
-                      ) : null}
                       <Field
                         id="nombreQuejoso"
                         name="nombreQuejoso"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.fullName}
+                        disabled
                       />
                       <span className="highlight"></span>
                       <label>Nombre del Quejoso</label>
@@ -321,15 +331,14 @@ const FormDeQuejas = () => {
                     </div>
 
                     <div className="senara-form-group">
-                      {errors.cedula && touched.cedula ? (
-                        <div className="a-alert">{errors.cedula}</div>
-                      ) : null}
                       <Field
                         id="cedula"
                         name="cedula"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.identification}
+                        disabled
                       />
                       <span className="highlight"></span>
                       <label>Nº Cédula</label>
