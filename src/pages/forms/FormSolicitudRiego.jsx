@@ -26,6 +26,7 @@ const FormSolicitudRiego = () => {
   const [Crops, setCrops] = useState()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [flag, setFlag] = useState(false)
 
   if (!user) return <Navigate to="/" />
 
@@ -100,6 +101,9 @@ const FormSolicitudRiego = () => {
 
     try {
       let res = await solicitudCreate(object, token)
+      if (res.status === 200) {
+        setFlag(true)
+      }
       console.log(res)
     } catch (error) {}
 
@@ -131,7 +135,7 @@ const FormSolicitudRiego = () => {
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}
         >
-          {({ errors, touched }) => {
+          {({ errors, touched, values }) => {
             return (
               <Form className="forms-container">
                 {loading ? (
@@ -419,6 +423,11 @@ const FormSolicitudRiego = () => {
                     <button type="submit" className="senara-btn-primary">
                       Hacer Solicitud
                     </button>
+                    {flag ? (
+                      <button onClick={() => PDFSolicitudRiego(values, data)}>
+                        Imprimir PDF
+                      </button>
+                    ) : null}
                   </>
                 ) : (
                   <p>Loading</p>
