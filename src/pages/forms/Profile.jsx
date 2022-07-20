@@ -25,7 +25,7 @@ const Profile = () => {
     const [districts, setDistricts] = useState()
     const [provinceAux, setProvinceAux] = useState(data?.province || null)
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onChange' })
 
     const loadCantons = (e = data?.province) => {
         let idProvince = null;
@@ -109,7 +109,7 @@ const Profile = () => {
                                 <div className="senara-form-group">
                                     {errors.province?.type === 'required' && <div className='a-alert'>La provincia es obligatoria!</div>}
                                     <select {...register("province", { required: true, onChange: e => loadCantons(e) })} className="floating-select" defaultValue={data?.province} >
-                                        <option value=""> Seleccione una Provincia </option>
+                                        <option value="" disabled> Seleccione una Provincia </option>
                                         {provinces?.map(value => (
                                             <option key={value} value={provinces.indexOf(value) + 1}>
                                                 {value}
