@@ -27,7 +27,20 @@ const FormPlanRiego = () => {
     const [subDistricts, setSubDistricts] = useState()
 
     const planRiegoSchema = Yup.object().shape({
-        date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
+        // date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
+        standardNumber: Yup.number().required('El número de padrón es obligatorio!').typeError('Sólo números son aceptados!'),
+        subDistrict: Yup.number().required('El Sub Distrito es obligatorio!'),
+        hydraulicSector: Yup.number().required('El Sector Hidraulico es obligatorio!'),
+        irrigableSurface: Yup.number().required('La superficie total regable es obligatorio!').typeError('Sólo números son aceptados!'),
+        date: Yup.date().required('La fecha es obligatoria!'),
+        crops: Yup.array().of(
+            Yup.object().shape({
+                cultivo: Yup.string().required('El cultivo es necesario!'),
+                toma: Yup.number().required('La toma es necesaria!'),
+                area: Yup.number().required('El área es necesaria!'),
+                fecha: Yup.date().required('La fecha es necesaria'),
+            }).required('Mínimo un cultivo es requerido!')
+        )
     })
 
     const loadSectors = (e, setFieldValue) => {
@@ -53,13 +66,11 @@ const FormPlanRiego = () => {
         }, 500);
         loadData()
     }, [])
-    console.log(data)
 
     const handleSubmit = async (values) => {
-        console.log(values)
-        const res = await addPlan(values, token)
+        const { fullName, identification, phone, exactAddress, email } = data
+        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
-
 
     return (
         <>
@@ -93,8 +104,6 @@ const FormPlanRiego = () => {
                                     ?
                                     <>
                                         <div className="forms-content-group">
-                                            {/* <fieldset> */}
-                                            {/* <legend>Información Personal</legend> */}
                                             {data.identificationType === 'physical'
                                                 ?
                                                 <div className="forms-content-group-item">
@@ -160,10 +169,11 @@ const FormPlanRiego = () => {
                                                 </div>
                                             }
 
-                                            {/* </fieldset> */}
-
                                             <div className="forms-content-group-item">
                                                 <div className="senara-form-group">
+                                                    {errors.standardNumber && touched.standardNumber ? (
+                                                        <div className="a-alert">{errors.standardNumber}</div>
+                                                    ) : null}
                                                     <Field
                                                         id="standardNumber"
                                                         name="standardNumber"
@@ -217,6 +227,9 @@ const FormPlanRiego = () => {
                                             </div>
 
                                             <div className="senara-form-group">
+                                                {errors.irrigableSurface && touched.irrigableSurface ? (
+                                                    <div className="a-alert">{errors.irrigableSurface}</div>
+                                                ) : null}
                                                 <Field
                                                     id="irrigableSurface"
                                                     name="irrigableSurface"
@@ -241,7 +254,6 @@ const FormPlanRiego = () => {
                                             </div>
 
                                             {/* CROPS HERE */}
-
                                             <Crops touched={touched} errors={errors} values={values} />
 
                                             {/* CROPS END HERE */}
@@ -255,8 +267,8 @@ const FormPlanRiego = () => {
                                                         className="floating-input"
                                                         placeholder=" "
                                                         value={data.phone}
+                                                        disabled
                                                     />
-                                                    <span className="highlight"></span>
                                                     <label> Teléfono </label>
                                                     <FontAwesomeIcon icon={faPhone} />
                                                 </div>
@@ -269,8 +281,8 @@ const FormPlanRiego = () => {
                                                         className="floating-input"
                                                         placeholder=" "
                                                         value={data.exactAddress}
+                                                        disabled
                                                     />
-                                                    <span className="highlight"></span>
                                                     <label> Dirección </label>
                                                     <FontAwesomeIcon icon={faAddressCard} />
                                                 </div>
@@ -283,8 +295,8 @@ const FormPlanRiego = () => {
                                                         className="floating-input"
                                                         placeholder=" "
                                                         value={data.email}
+                                                        disabled
                                                     />
-                                                    <span className="highlight"></span>
                                                     <label> Correo Electronico </label>
                                                     <FontAwesomeIcon icon={faEnvelope} />
                                                 </div>

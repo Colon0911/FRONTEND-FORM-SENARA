@@ -55,7 +55,7 @@ const Register = () => {
     }
 
     return (
-        <div className="senara-content-sm-login">
+        <div className="senara-content-sm-login register-form">
             <Logo />
             <div className="senara-content-legend-auth">
                 <div className="senara-tagline"> Registro </div>
