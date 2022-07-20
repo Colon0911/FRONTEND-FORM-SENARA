@@ -19,9 +19,9 @@ const Login = () => {
     emailOrUser: Yup.lazy((value = '') =>
       value.includes('@')
         ? Yup.string()
-          .email('Email no valido')
-          .required('Este campo es obligatorio')
-          .typeError('Este campo es obligatorio')
+            .email('Email no valido')
+            .required('Este campo es obligatorio')
+            .typeError('Este campo es obligatorio')
         : Yup.string().required('Este campo es obligatorio')
     ),
     password: Yup.string().required('Es requerida la contraseña'),
@@ -125,9 +125,8 @@ const Login = () => {
           }}
         </Formik>
       </div>
-
       {validUsuario === true ? (
-        <p className="alert-senara success">Inicio de seccion exitoso</p>
+        <div className="senara-loader"></div>
       ) : validUsuario === false ? (
         <p className="alert-senara error">Usuario o contraseña incorrecta</p>
       ) : null}

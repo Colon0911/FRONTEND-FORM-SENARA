@@ -1,5 +1,5 @@
-@use 'base/variables'as v;
-@use 'base/mixins'as m;
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
 
 .sk-circle.sk-circle-aside {
   margin: auto;
@@ -159,7 +159,6 @@
 }
 
 @-webkit-keyframes sk-circleBounceDelay {
-
   0%,
   80%,
   100% {
@@ -174,7 +173,6 @@
 }
 
 @keyframes sk-circleBounceDelay {
-
   0%,
   80%,
   100% {
@@ -190,11 +188,60 @@
 
 #spinner {
   position: absolute;
-  background-color: rgb(243 244 246 / .5);
+  background-color: rgb(243 244 246 / 0.5);
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   align-items: center;
   display: none;
+}
+
+.senara-loader {
+  animation: spin 1s infinite linear;
+  border: solid 2vmin transparent;
+  border-radius: 50%;
+  border-right-color: v.$verdeOscuro;
+  border-top-color: v.$verdeOscuro;
+  box-sizing: border-box;
+  height: 16vmin;
+  left: calc(50% - 10vmin);
+  position: fixed;
+  top: calc(50% - 10vmin);
+  width: 16vmin;
+  z-index: 1;
+  &:before {
+    animation: spin 2s infinite linear;
+    border: solid 2vmin transparent;
+    border-radius: 50%;
+    border-right-color: v.$azulOscuro;
+    border-top-color: v.$azulOscuro;
+    box-sizing: border-box;
+    content: '';
+    height: 12vmin;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 12vmin;
+  }
+  &:after {
+    animation: spin 3s infinite linear;
+    border: solid 2vmin transparent;
+    border-radius: 50%;
+    border-right-color: v.$azulClaro;
+    border-top-color: v.$azulClaro;
+    box-sizing: border-box;
+    content: '';
+    height: 8vmin;
+    left: 2vmin;
+    position: absolute;
+    top: 2vmin;
+    width: 8vmin;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }

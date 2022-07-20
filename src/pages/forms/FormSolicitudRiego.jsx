@@ -39,11 +39,13 @@ const FormSolicitudRiego = () => {
     cultivo: Yup.string().required('Este campo es necesario'),
     variedad: Yup.string().required('Este campo es necesario'),
     rendimientoAnterior: Yup.string().required('Este campo es necesario'),
-    phone: Yup.string().required('Este campo es necesario'),
     exactAddress: Yup.string()
-      .required('Este campo es necesario')
       .min(30, 'Minimo 30 caracteres')
       .max(100, 'Maximo 100 caracteres'),
+    phone: Yup.string()
+      .required('Este campo es necesario')
+      .matches(/^[2|4|5|6|7|8]\d{7}$/, 'Este numero no es valido')
+      .required('Este campo es necesario'),
     fax: Yup.string(),
     email: Yup.string()
       .required('Este campo es necesario')
@@ -211,7 +213,10 @@ const FormSolicitudRiego = () => {
                             multiple={false}
                             className="floating-select"
                           >
-                            <option value=""> SubDistrito </option>
+                            <option value="" disabled>
+                              {' '}
+                              SubDistrito{' '}
+                            </option>
                             {subDistric &&
                               subDistric.map((value, key) => {
                                 return (
@@ -254,7 +259,10 @@ const FormSolicitudRiego = () => {
                             multiple={false}
                             className="floating-select"
                           >
-                            <option value=""> Cultivo </option>
+                            <option value="" disabled>
+                              {' '}
+                              Cultivo{' '}
+                            </option>
                             {Crops &&
                               Crops.map((value, key) => {
                                 return (
