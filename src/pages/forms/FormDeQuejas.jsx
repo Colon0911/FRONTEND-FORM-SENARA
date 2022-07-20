@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -14,20 +16,25 @@ import {
 
 import { useAuth } from '../../hooks/useAuth'
 
+import { agregarQueja } from '../../services/formServices'
+import { getData } from '../../helpers/loadUserData'
+
 const FormDeQuejas = () => {
-  const { user } = useAuth()
-
-
+  const { user, token } = useAuth()
 
   if (!user) return <Navigate to="/" />
 
+
+  const [data, setData] = useState()
+  const [loading, setLoading] = useState(false)
+
   const profileSchema = Yup.object().shape({
 
-    nombreDelArrendatario: Yup.string().required(
+    nombre: Yup.string().required(
       'El Nombre es obligatorio!'
     ),
     tipoUsuario: Yup.string().required('Tipo de Usuario obligatorio!'),
-    telArrendatario: Yup.string().required('El teléfono es obligatorio!'),
+    telefono: Yup.string().required('El teléfono es obligatorio!'),
     lugar: Yup.string().required('El Lugar es obligatorio!'),
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
     nToma: Yup.string().required('El Nº Toma es obligatorio!'),
@@ -48,8 +55,16 @@ const FormDeQuejas = () => {
   // const checkHour = () => {
   //   sethourNow(new Date().toLocaleTimeString())
   // }
-
-
+  console.log(data)
+  useLayoutEffect(() => {
+    const loadData = async () => {
+      setData(await getData(token))
+    }
+    loadData()
+    setTimeout(() => {
+      setLoading(true)
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     fetch('http://192.168.10.182:8080/getAllSubdistrito')
@@ -63,10 +78,9 @@ const FormDeQuejas = () => {
   //   checkHour()
   // }, 10000);
 
-  const handleSubmit = (values) => {
-    const formData = {}
-
-    console.log(formData)
+  const handleSubmit = async (values) => {
+    console.log(values)
+    const res = await agregarQueja(values, token)
   }
 
   return (
@@ -77,7 +91,19 @@ const FormDeQuejas = () => {
       <div className="senara-forms">
         <Formik
           initialValues={{
-
+            tipoUsuario: "",
+            nombre: "",
+            telefono: "",
+            lugar: "",
+            nParcela: "",
+            nToma: "",
+            problematica: "",
+            reportado: "",
+            respInst: "",
+            solucion: "",
+            aporte: "",
+            nombreQuejoso: "",
+            cedula: ""
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}
@@ -97,6 +123,7 @@ const FormDeQuejas = () => {
 
 
                   <div className="forms-content-group-item">
+
                     <div className="senara-form-group">
                       {errors.tipoUsuario && touched.tipoUsuario ? (
                         <div className="a-alert">{errors.tipoUsuario}</div>
@@ -108,47 +135,42 @@ const FormDeQuejas = () => {
                         multiple={false}
                         className="floating-select"
                       >
-                        <option value=""> Seleccione Tipo de Usuario </option>
-                        <option value="Propietario">Propietario</option>
-                        <option value="Arrendatario">Arrendatario</option>
+                        <option value="" disabled> Seleccione Tipo de Usuario </option>
+                        <option value="Propietario Registral">Propietario Registral</option>
+                        <option value="Productor">Productor</option>
                       </Field>
                     </div>
-                    <div className="senara-form-group">
-                      {errors.nombreDelArrendatario &&
-                        touched.nombreDelArrendatario ? (
-                        <div className="a-alert">
-                          {errors.nombreDelArrendatario}
-                        </div>
-                      ) : null}
+                    <div className="senara-form-group" >
                       <Field
-                        id="nombreDelArrendatario"
-                        name="nombreDelArrendatario"
+                        id="nombre"
+                        name="nombre"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.fullName}
+                        disabled
                       />
-                      <span className="highlight"></span>
                       <label> Nombre</label>
                       <FontAwesomeIcon icon={faAddressCard} />
                     </div>
 
                     <div className="senara-form-group">
-                      {errors.telArrendatario && touched.telArrendatario ? (
-                        <div className="a-alert">{errors.telArrendatario}</div>
+                      {errors.telefono && touched.telefono ? (
+                        <div className="a-alert">{errors.telefono}</div>
                       ) : null}
                       <Field
-                        id="telArrendatario"
-                        name="telArrendatario"
+                        id="telefono"
+                        name="telefono"
                         type="tel"
                         placeholder=""
                         className="floating-input"
+                        value={data?.phone}
+                        disabled
                       />
                       <FontAwesomeIcon icon={faPhone} />
-                      <span className="highlight"></span>
                       <label> Teléfono </label>
                     </div>
                   </div>
-
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
                       {errors.lugar && touched.lugar ? (
@@ -161,7 +183,7 @@ const FormDeQuejas = () => {
                         multiple={false}
                         className="floating-select"
                       >
-                        <option value=""> Seleccione Lugar del Proyecto </option>
+                        <option value="" disabled> Seleccione Lugar del Proyecto </option>
                         {subDistrito &&
                           subDistrito.map((value, key) => {
 
@@ -226,11 +248,11 @@ const FormDeQuejas = () => {
                         <div className="a-alert">{errors.reportado}</div>
                       ) : null}
                       <Field
+                        as="textarea"
                         id="reportado"
                         name="reportado"
-                        type="text"
                         placeholder=""
-                        className="floating-input"
+                        className="floating-textarea"
                       />
                       <span className="highlight"></span>
                       <label> Lo ha reportado anteriormente </label>
@@ -243,16 +265,14 @@ const FormDeQuejas = () => {
                         <div className="a-alert">{errors.respInst}</div>
                       ) : null}
                       <Field
+                        as="textarea"
                         id="respInst"
                         name="respInst"
-                        type="text"
                         placeholder=""
-                        className="floating-input"
+                        className="floating-textarea"
                       />
-                      <span className="highlight"></span>
                       <label>
-                        {' '}
-                        Cuál ha sido la respuesta de la Intitución{' '}
+                        Cuál ha sido la respuesta de la Institución
                       </label>
                     </div>
                   </div>
@@ -263,13 +283,12 @@ const FormDeQuejas = () => {
                         <div className="a-alert">{errors.solucion}</div>
                       ) : null}
                       <Field
+                        as="textarea"
                         id="solucion"
                         name="solucion"
-                        type="text"
                         placeholder=""
-                        className="floating-input"
+                        className="floating-textarea"
                       />
-                      <span className="highlight"></span>
                       <label>
                         Cuál considera usted que sea la solución al problema
                       </label>
@@ -282,13 +301,13 @@ const FormDeQuejas = () => {
                         <div className="a-alert">{errors.aporte}</div>
                       ) : null}
                       <Field
+                        as="textarea"
                         id="aporte"
                         name="aporte"
                         type="text"
                         placeholder=""
-                        className="floating-input"
+                        className="floating-textarea"
                       />
-                      <span className="highlight"></span>
                       <label>
                         Cuál seria su aporte para solucionar el problema
                       </label>
@@ -297,15 +316,14 @@ const FormDeQuejas = () => {
 
                   <div className="forms-content-group-item">
                     <div className="senara-form-group">
-                      {errors.nombreQuejoso && touched.nombreQuejoso ? (
-                        <div className="a-alert">{errors.nombreQuejoso}</div>
-                      ) : null}
                       <Field
                         id="nombreQuejoso"
                         name="nombreQuejoso"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.fullName}
+                        disabled
                       />
                       <span className="highlight"></span>
                       <label>Nombre del Quejoso</label>
@@ -313,15 +331,14 @@ const FormDeQuejas = () => {
                     </div>
 
                     <div className="senara-form-group">
-                      {errors.cedula && touched.cedula ? (
-                        <div className="a-alert">{errors.cedula}</div>
-                      ) : null}
                       <Field
                         id="cedula"
                         name="cedula"
                         type="text"
                         placeholder=""
                         className="floating-input"
+                        value={data?.identification}
+                        disabled
                       />
                       <span className="highlight"></span>
                       <label>Nº Cédula</label>
