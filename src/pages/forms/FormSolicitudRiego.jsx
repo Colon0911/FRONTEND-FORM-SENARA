@@ -46,7 +46,10 @@ const FormSolicitudRiego = () => {
       .required('Este campo es necesario')
       .matches(/^[2|4|5|6|7|8]\d{7}$/, 'Este numero no es valido')
       .required('Este campo es necesario'),
-    fax: Yup.string(),
+    fax: Yup.string().matches(
+      /^(?=(?:\D*\d){10,12}\D*$)[0-9 \-()\\\/]{1,16}$/gm,
+      'Este numero fax no es valido'
+    ),
     email: Yup.string()
       .required('Este campo es necesario')
       .email('Email no valido'),
