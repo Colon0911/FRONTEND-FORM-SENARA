@@ -1,6 +1,10 @@
 import { Navigate, Outlet, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faDoorOpen, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import {
+  faUser,
+  faDoorOpen,
+  faCalendar,
+} from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../hooks/useAuth'
 import { compareDates } from '../helpers/compareDates'
