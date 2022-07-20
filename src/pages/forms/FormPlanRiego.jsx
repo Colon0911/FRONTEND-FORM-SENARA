@@ -26,7 +26,7 @@ const FormPlanRiego = () => {
     const [subDistricts, setSubDistricts] = useState()
 
     const planRiegoSchema = Yup.object().shape({
-        date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
+        date: Yup.date().required('La fecha es obligatoria!')
     })
 
     const loadSectors = (e, setFieldValue) => {
