@@ -109,7 +109,7 @@ const Profile = () => {
                                 <div className="senara-form-group">
                                     {errors.province?.type === 'required' && <div className='a-alert'>La provincia es obligatoria!</div>}
                                     <select {...register("province", { required: true, onChange: e => loadCantons(e) })} className="floating-select" defaultValue={data?.province} >
-                                        <option value="" disabled> Seleccione una Provincia </option>
+                                        <option value=""> Seleccione una Provincia </option>
                                         {provinces?.map(value => (
                                             <option key={value} value={provinces.indexOf(value) + 1}>
                                                 {value}
@@ -142,6 +142,7 @@ const Profile = () => {
                                 <div className="senara-form-group">
                                     {errors.exactAddress?.type === 'required' && <div className='a-alert'>La dirección exacta es obligatoria!</div>}
                                     <textarea className='floating-textarea' {...register('exactAddress', { required: true })} defaultValue={data?.exactAddress}></textarea>
+                                    <label> Dirección Exacta </label>
                                 </div>
                             </div>
                         </div>
