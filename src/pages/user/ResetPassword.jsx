@@ -5,6 +5,8 @@ import * as Yup from 'yup'
 
 import { resetPassword } from '../../services/userServices'
 
+import Logo from '../../components/Logo'
+
 const ResetPassword = () => {
 
     const navi = useParams()
@@ -12,9 +14,9 @@ const ResetPassword = () => {
     const ResetPasswordSchema = Yup.object().shape({
         password: Yup.string()
             .required("Este campo es obligatorio")
-            .min(8, "La contraseña debe tener minimo 8 caracteres")
+            .min(6, "La contraseña debe tener minimo 6 caracteres")
             .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
-        confirmPassword: Yup.string()
+        confirmPassword: Yup.string().required("Este campo es obligatorio")
             .oneOf([Yup.ref("password"), null], "La contraseña no coincide")
     })
 
@@ -23,12 +25,11 @@ const ResetPassword = () => {
     }
 
     return (
-        <div className="senara-content-login senara-content-sm-login">
-            <div className="senara-logo">
-                <div className="senara-img-logo"></div>
+        <div className="senara-content-sm-login">
+            <Logo />
+            <div className="senara-content-legend-auth">
+                <legend className="senara-tagline">Cambiar Contraseña</legend>
             </div>
-
-            <p className="senara-tagline">CAMBIAR CONTRASEÑA</p>
 
             <Formik
                 initialValues={{
@@ -42,40 +43,35 @@ const ResetPassword = () => {
                     return (
                         <Form className="senara-form">
                             <div className="senara-form-group">
-                                <p
-                                    className="senara-form-group floating-label senara-description-page"
-                                    htmlFor="password"
-                                ></p>
+                                {errors.password && touched.password ? (
+                                    <div className="a-alert">{errors.password}</div>
+                                ) : null}
                                 <Field
                                     id="password"
                                     type="password"
                                     className="floating-input "
-                                    placeholder="Ingrese su nueva contraseña"
+                                    placeholder=""
                                     name="password"
                                 />
-                                {errors.password && touched.password ? (
-                                    <p className="alert-senara-error">{errors.password}</p>
-                                ) : null}
+                                <span className="highlight"></span>
+                                <label htmlFor="password"> Ingrese su nueva contraseña </label>
                             </div>
 
                             <div className="senara-form-group">
-                                <p
-                                    className="senara-form-group floating-label senara-description-page"
-                                    htmlFor="confirmPassword"
-                                ></p>
+                                {errors.confirmPassword && touched.confirmPassword ? (
+                                    <div className="a-alert">{errors.confirmPassword}</div>
+                                ) : null}
                                 <Field
                                     id="confirmPassword"
                                     type="password"
                                     className="floating-input "
-                                    placeholder="Vuelva a Ingresar su contraseña"
+                                    placeholder=""
                                     name="confirmPassword"
                                 />
-                                {errors.confirmPassword && touched.confirmPassword ? (
-                                    <p className="alert-senara-error">
-                                        {errors.confirmPassword}
-                                    </p>
-                                ) : null}
+                                <span className="highlight"></span>
+                                <label htmlFor="password"> Vuelva a ingresar su contraseña </label>
                             </div>
+
 
                             <input type="submit" value="Cambiar" className="senara-btn-primary btn-center" />
                         </Form>

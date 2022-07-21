@@ -42,6 +42,9 @@ const ForgetPassword = () => {
           return (
             <Form className="senara-form form-login">
               <div className="senara-form-group">
+                {errors.email && touched.email ? (
+                  <div className="a-alert">{errors.email}</div>
+                ) : null}
                 <Field
                   id="email"
                   type="email"
@@ -52,9 +55,7 @@ const ForgetPassword = () => {
                 <span className="highlight"></span>
                 <label htmlFor="email"> Ingrese su correo electrónico </label>
                 <FontAwesomeIcon icon={faEnvelope} />
-                {errors.email && touched.email ? (
-                  <p className="alert-senara-error">{errors.email}</p>
-                ) : null}
+
               </div>
               <div className="container-notfound">
                 <input
