@@ -308,7 +308,10 @@ const FormPlanRiego = () => {
                                             Guardar
                                         </button>
                                     </>
-                                    : <p>Loading...</p>
+                                    :
+                                    <div class="spinner-loading">
+                                        <div></div><div></div><div></div><div></div>
+                                    </div>
                                 }
                             </Form>
                         )

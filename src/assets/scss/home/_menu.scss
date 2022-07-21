@@ -58,7 +58,7 @@
             align-self: center;
             display: grid;
             background-color: lighten(v.$gris, 35%);
-            border-radius: v.$radiusContenedor;
+            // border-radius: v.$radiusContenedor;
             grid-template-rows: repeat(2, 1fr);
             height: 70%; //70
             min-height: 70%;
@@ -71,7 +71,17 @@
             }
 
             &:hover {
-                background-color: lighten(v.$gris, 30%);
+                background-color: lighten(v.$verdeMedio, 10%);
+            }
+
+            &:focus {
+                background-color: v.$verdeMedio;
+
+                color: v.$blanco;
+
+                p {
+                    color: v.$blanco
+                }
             }
 
             &:last-child {

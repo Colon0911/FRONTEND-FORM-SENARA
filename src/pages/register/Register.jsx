@@ -92,7 +92,7 @@ const Register = () => {
                                         <button
                                             type="button"
                                             onClick={nextStep}
-                                            className="senara-btn-primary senara-form-group"
+                                            className="senara-btn-primary senara-form-group btn-register"
                                             disabled={
                                                 (values.identificationType && values.identification && values.fullName && !errors.genre)
                                                     ? false : true
@@ -107,13 +107,13 @@ const Register = () => {
                                         <input
                                             type="submit"
                                             value="Enviar"
-                                            className="senara-btn-primary senara-form-group"
+                                            className="senara-btn-primary senara-form-group btn-register"
                                         />
                                     </>
                                 )}
                             </Form>
-                            <div className="senara-actions">
-                                <Link to="/"> Iniciar Sesión </Link>
+                            <div className="senara-actions action-register">
+                                <Link to="/"> Acceder a tu cuenta </Link>
                             </div>
                         </>
                     )
