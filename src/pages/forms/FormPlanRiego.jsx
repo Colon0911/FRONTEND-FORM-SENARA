@@ -73,12 +73,12 @@ const FormPlanRiego = () => {
 
     const handleSubmit = async (values) => {
         const { fullName, identification, phone, exactAddress, email } = data
-        const status = 200
-        if (status === 200) {
-            setShowPDF(true)
-            notification(status)
-        }
-        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        // const status = 200
+        // if (status === 200) {
+        //     setShowPDF(true)
+        //     notification(status)
+        // }
+        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
