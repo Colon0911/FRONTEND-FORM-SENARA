@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+import { ToastContainer } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressCard, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +13,9 @@ import { addPlan } from '../../services/formServices'
 import { compareDates } from '../../helpers/compareDates'
 
 import Crops from './Crops'
-// import { getHydraulicSector } from '../../helpers/loadPlace'
+
+import { notification } from '../../components/Toast'
+import "react-toastify/ReactToastify.min.css";
 
 const FormPlanRiego = () => {
     const { user, token, expiresIn, logout } = useAuth()
@@ -25,6 +28,7 @@ const FormPlanRiego = () => {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [sectors, setSectors] = useState()
     const [subDistricts, setSubDistricts] = useState()
+    const [showPDF, setShowPDF] = useState(false)
 
     const planRiegoSchema = Yup.object().shape({
         // date: Yup.date().required('La fecha es obligatoria!').min(currentDate.toLocaleDateString(), `Debe ser posterior al ${currentDate.toLocaleDateString()}`)
@@ -69,7 +73,12 @@ const FormPlanRiego = () => {
 
     const handleSubmit = async (values) => {
         const { fullName, identification, phone, exactAddress, email } = data
-        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        const status = 200
+        if (status === 200) {
+            setShowPDF(true)
+            notification(status)
+        }
+        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
@@ -304,12 +313,15 @@ const FormPlanRiego = () => {
 
 
                                         </div>
-                                        <button type="submit" className="senara-btn-primary">
-                                            Guardar
-                                        </button>
+                                        <div className="btn-group">
+                                            <button type="submit" className="senara-btn-primary">
+                                                Guardar
+                                            </button>
+                                            {showPDF && <button type="button" className='senara-btn-primary btn-pdf'> PDF </button>}
+                                        </div>
                                     </>
                                     :
-                                    <div class="spinner-loading">
+                                    <div className="spinner-loading">
                                         <div></div><div></div><div></div><div></div>
                                     </div>
                                 }
@@ -318,6 +330,7 @@ const FormPlanRiego = () => {
                     }}
                 </Formik>
             </div>
+            <ToastContainer position="bottom-right" theme='colored' />
         </>
     )
 }
