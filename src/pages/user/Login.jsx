@@ -19,9 +19,9 @@ const Login = () => {
     emailOrUser: Yup.lazy((value = '') =>
       value.includes('@')
         ? Yup.string()
-            .email('Email no valido')
-            .required('Este campo es obligatorio')
-            .typeError('Este campo es obligatorio')
+          .email('Email no valido')
+          .required('Este campo es obligatorio')
+          .typeError('Este campo es obligatorio')
         : Yup.string().required('Este campo es obligatorio')
     ),
     password: Yup.string().required('Es requerida la contraseña'),
@@ -55,7 +55,7 @@ const Login = () => {
       <div className="senara-content-sm-login">
         <Logo />
         <div className="senara-content-legend-auth">
-          <legend className="senara-tagline">Bienvenido</legend>
+          <legend className="senara-tagline">Iniciar Sesión</legend>
           <legend className="senara-description-page">
             Ingrese sus credenciales
           </legend>
