@@ -4,6 +4,9 @@ import { Formik, Form, Field } from 'formik'
 import { PDFSolicitudRiego } from '../../pdf/PDFSolicitudRiego'
 import { getData } from '../../helpers/loadUserData'
 import { solicitudCreate } from '../../services/formServices'
+import { ToastContainer } from 'react-toastify'
+import { notification } from '../../components/Toast'
+import 'react-toastify/ReactToastify.min.css'
 
 import * as Yup from 'yup'
 
@@ -103,6 +106,7 @@ const FormSolicitudRiego = () => {
       let res = await solicitudCreate(object, token)
       if (res.status === 200) {
         setFlag(true)
+        notification(res.status)
       }
       console.log(res)
     } catch (error) {}
@@ -430,13 +434,19 @@ const FormSolicitudRiego = () => {
                     ) : null}
                   </>
                 ) : (
-                  <p>Loading</p>
+                  <div className="spinner-loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
                 )}
               </Form>
             )
           }}
         </Formik>
       </div>
+      <ToastContainer position="bottom-right" theme="colored" />
     </>
   )
 }
