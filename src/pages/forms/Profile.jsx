@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import { ToastContainer } from 'react-toastify'
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faKey, faAddressCard, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
@@ -10,6 +12,9 @@ import { getData } from '../../helpers/loadUserData'
 import { getIdentification } from '../../helpers/decoding'
 import { updateUser } from '../../services/userServices'
 import { compareDates } from '../../helpers/compareDates'
+
+import { notification } from '../../components/Toast'
+import "react-toastify/ReactToastify.min.css";
 
 const Profile = () => {
     const { user, expiresIn, token, logout } = useAuth()
@@ -153,10 +158,11 @@ const Profile = () => {
                     </form>
                 </div>
                 :
-                <div class="spinner-loading">
+                <div className="spinner-loading">
                     <div></div><div></div><div></div><div></div>
                 </div>
             }
+            <ToastContainer position="bottom-right" theme='colored' />
         </>
     )
 }

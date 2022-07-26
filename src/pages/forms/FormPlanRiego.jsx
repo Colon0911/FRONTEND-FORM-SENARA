@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import { ToastContainer } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressCard, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faCommentsDollar, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../../hooks/useAuth'
 import { getData } from '../../helpers/loadUserData'
@@ -16,6 +16,8 @@ import Crops from './Crops'
 
 import { notification } from '../../components/Toast'
 import "react-toastify/ReactToastify.min.css";
+
+import { PDFPlanRiego } from '../../pdf/PDFPlanRiego'
 
 const FormPlanRiego = () => {
     const { user, token, expiresIn, logout } = useAuth()
@@ -71,14 +73,19 @@ const FormPlanRiego = () => {
         loadData()
     }, [])
 
+    const handlePDF = (values) => {
+        console.log(values)
+        PDFPlanRiego()
+    }
+
     const handleSubmit = async (values) => {
         const { fullName, identification, phone, exactAddress, email } = data
-        // const status = 200
-        // if (status === 200) {
-        //     setShowPDF(true)
-        //     notification(status)
-        // }
-        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        const status = 200
+        if (status === 200) {
+            setShowPDF(true)
+            notification(status)
+        }
+        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
@@ -317,7 +324,9 @@ const FormPlanRiego = () => {
                                             <button type="submit" className="senara-btn-primary">
                                                 Guardar
                                             </button>
-                                            {showPDF && <button type="button" className='senara-btn-primary btn-pdf'> PDF </button>}
+                                            {showPDF &&
+                                                <button type="button" className='senara-btn-primary btn-pdf' onClick={() => handlePDF(values)}> PDF </button>
+                                            }
                                         </div>
                                     </>
                                     :

@@ -53,7 +53,7 @@ const ForgetPassword = () => {
                   placeholder=" "
                 />
                 <span className="highlight"></span>
-                <label htmlFor="email"> Ingrese su correo electrónico </label>
+                <label htmlFor="email"> Ingrese su correo </label>
                 <FontAwesomeIcon icon={faEnvelope} />
 
               </div>
@@ -70,7 +70,7 @@ const ForgetPassword = () => {
       </Formik>
 
       <div className="senara-actions container-notfound">
-        <Link to="/">Iniciar Sesión</Link>
+        <Link to="/">Volver a iniciar sesión</Link>
       </div>
     </div>
   )

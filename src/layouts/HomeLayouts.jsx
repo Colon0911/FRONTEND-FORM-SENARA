@@ -22,7 +22,7 @@ const HomeLayouts = () => {
           <div className="senara-img-logo-header"></div>
         </div>
         <h4 className="senara-descrip-page">
-          DIRECCION DISTRITO DE RIEGO ARENAL TEMPISQUE
+          DIRECCIÓN DISTRITO DE RIEGO ARENAL TEMPISQUE
         </h4>
         <div className="senara-icon-header">
           <Link to="/dashboard/profile">
