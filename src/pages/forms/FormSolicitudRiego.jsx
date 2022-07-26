@@ -34,15 +34,22 @@ const FormSolicitudRiego = () => {
   if (!user) return <Navigate to="/" />
 
   const profileSchema = Yup.object().shape({
-    nParcela: Yup.string().required('Este campo es necesario'),
-    proyecto: Yup.string().required('Este campo es necesario'),
+    nParcela: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
+    proyecto: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
     subDistrito: Yup.string().required('Este campo es necesario'),
     area: Yup.number()
       .required('Este campo es necesario')
-      .typeError('Este campo es numerico'),
+      .typeError('Este campo es numerico')
+      .max(20, 'Maximo 20 caracteres'),
     cultivo: Yup.string().required('Este campo es necesario'),
     variedad: Yup.string().required('Este campo es necesario'),
-    rendimientoAnterior: Yup.string().required('Este campo es necesario'),
+    rendimientoAnterior: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
     exactAddress: Yup.string()
       .min(30, 'Minimo 30 caracteres')
       .max(100, 'Maximo 100 caracteres'),
