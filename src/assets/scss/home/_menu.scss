@@ -1,177 +1,193 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
+
 .senara-content-menu {
-  background-color: v.$blanco;
-  border-radius: v.$radiusContenedor;
-  box-shadow: v.$boxShadow;
-  display: grid;
-  grid-template-rows: 40px 1fr;
-  margin: 1rem 2rem 0rem 2rem;
-
-  @include m.tablet {
-    min-height: calc(100vh - 170px);
-    margin: 1rem 0 4rem 2rem;
-    // width: calc(100% - 80%);
-  }
-
-  @include m.desktop {
-    width: calc(100% - 2rem);
-  }
-
-  p {
-    color: v.$negro;
-  }
-
-  h2 {
-    color: v.$blanco;
-    margin: 0;
-    text-align: center;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .title-container {
-    background-color: lighten(v.$gris, 35%);
+    background-color: v.$blanco;
+    border-radius: v.$radiusContenedor;
+    box-shadow: v.$boxShadow;
     display: grid;
-    place-content: center;
-  }
-
-  .forms-container {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(130px, 1fr));
-    overflow-x: auto;
-    overflow-y: auto;
+    grid-template-rows: 40px 1fr;
+    margin: 1rem 2rem 0rem 2rem;
 
     @include m.tablet {
-      grid-template-columns: none;
-      grid-template-rows: repeat(3, minmax(130px, 1fr));
+        min-height: calc(100vh - 170px);
+        margin: 1rem 0 4rem 2rem;
+        // width: calc(100% - 80%);
     }
 
-    .form-item {
-      color: v.$negro;
-      align-self: center;
-      display: grid;
-      background-color: lighten(v.$gris, 35%);
-      border-radius: v.$radiusContenedor;
-      grid-template-rows: repeat(2, 1fr);
-      height: 70%; //70
-      min-height: 70%;
-      padding-inline: 1.3rem;
-      width: 80%; //80
-      margin-inline: auto;
+    @include m.desktop {
+        width: calc(100% - 2rem);
+    }
 
-      @include m.tablet {
-        height: 80%;
-      }
+    p {
+        color: v.$negro;
+    }
 
-      &:hover {
-        background-color: lighten(v.$gris, 30%);
-      }
+    h2 {
+        color: v.$blanco;
+        margin: 0;
+        text-align: center;
+    }
 
-      &:last-child {
-        .form-name > p {
-          &::after {
-            content: 'Plan de Riego';
+    &::-webkit-scrollbar {
+        display: none;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 
-            @include m.desktop {
-              content: 'Inscripción en Plan de Riego DRAT';
-            }
-          }
-        }
-      }
-
-      .form-name {
-        p {
-          line-height: 1.5;
-          font-size: 1.5rem;
-          text-align: center;
-        }
-      }
-
-      .svg-block {
+    .title-container {
+        background-color: lighten(v.$gris, 35%);
         display: grid;
-        align-content: end;
-        justify-content: center;
-        // place-content: center;
-      }
-    }
-  }
-
-  .senara-menu {
-    margin-top: 2rem;
-
-    .header-ul {
-      padding: 1rem;
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      background-color: darken(v.$azulClaro, 25%);
-      color: v.$gris;
+        place-content: center;
     }
 
-    > ul {
-      text-align: center;
-      padding: 0;
-      margin: 0;
+    .forms-container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(130px, 1fr));
+        overflow-x: auto;
+        overflow-y: auto;
 
-      > li {
-        list-style: none;
-
-        > a {
-          color: v.$grisClaro;
-
-          &:hover,
-          &.active {
-            color: v.$blanco;
-            background-color: darken(v.$azulOscuro, 20%);
-            border-left: 0.5rem solid v.$verdeClaro;
-            padding: 1.5rem 2.5rem;
-            //border-radius: .5rem;
-          }
+        @include m.tablet {
+            grid-template-columns: none;
+            grid-template-rows: repeat(3, minmax(130px, 1fr));
         }
 
-        > ul {
-          display: none;
-          text-align: center;
-          background-color: darken(v.$azulClaro, 20%);
+        .form-item {
+            color: v.$negro;
+            align-self: center;
+            display: grid;
+            background-color: lighten(v.$gris, 35%);
+            // border-radius: v.$radiusContenedor;
+            grid-template-rows: repeat(2, 1fr);
+            height: 70%; //70
+            min-height: 70%;
+            padding-inline: 1.3rem;
+            width: 80%; //80
+            margin-inline: auto;
 
-          > li {
-            list-style: none;
-
-            > a {
-              //color: lighten(v.$gris, 25%);
-              color: v.$blanco;
-
-              &:hover,
-              &.active {
-                color: lighten(v.$verdeClaro, 20%);
-                //background-color: darken(v.$azulOscuro, 20%);
-                padding: 1.5rem 3rem;
-                //border-left: 1px solid v.$verdeClaro;
-                //border-radius: .5rem;
-              }
+            @include m.tablet {
+                height: 80%;
             }
-          }
+
+            &:hover {
+                background-color: lighten(v.$verdeMedio, 10%);
+            }
+
+            &:focus {
+                background-color: v.$verdeMedio;
+
+                color: v.$blanco;
+
+                p {
+                    color: v.$blanco
+                }
+            }
+
+            &:last-child {
+                .form-name>p {
+                    &::after {
+                        content: "Plan de Riego";
+
+                        @include m.desktop {
+                            content: "Inscripción en Plan de Riego DRAT";
+                        }
+                    }
+                }
+            }
+
+            .form-name {
+
+                p {
+                    line-height: 1.5;
+                    font-size: 1.5rem;
+                    text-align: center;
+                }
+            }
+
+
+            .svg-block {
+                display: grid;
+                align-content: end;
+                justify-content: center;
+                // place-content: center;
+            }
+
         }
-      }
-    }
-  }
-
-  a {
-    transition-property: background-color;
-    transition-duration: 300ms;
-    font-size: 2.4rem;
-
-    > span {
-      padding-left: 0.7rem;
     }
 
-    > i:last-child {
-      float: right;
+    .senara-menu {
+        margin-top: 2rem;
+
+        .header-ul {
+            padding: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            background-color: darken(v.$azulClaro, 25%);
+            color: v.$gris;
+        }
+
+        >ul {
+            text-align: center;
+            padding: 0;
+            margin: 0;
+
+            >li {
+                list-style: none;
+
+                >a {
+                    color: v.$grisClaro;
+
+                    &:hover,
+                    &.active {
+                        color: v.$blanco;
+                        background-color: darken(v.$azulOscuro, 20%);
+                        border-left: .5rem solid v.$verdeClaro;
+                        padding: 1.5rem 2.5rem;
+                        //border-radius: .5rem;
+                    }
+
+                }
+
+                >ul {
+                    display: none;
+                    text-align: center;
+                    background-color: darken(v.$azulClaro, 20%);
+
+                    >li {
+                        list-style: none;
+
+                        >a {
+                            //color: lighten(v.$gris, 25%);
+                            color: v.$blanco;
+
+                            &:hover,
+                            &.active {
+                                color: lighten(v.$verdeClaro, 20%);
+                                //background-color: darken(v.$azulOscuro, 20%);
+                                padding: 1.5rem 3rem;
+                                //border-left: 1px solid v.$verdeClaro;
+                                //border-radius: .5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
+
+    a {
+        transition-property: background-color;
+        transition-duration: 300ms;
+        font-size: 2.4rem;
+
+        >span {
+            padding-left: 0.7rem;
+        }
+
+        >i:last-child {
+            float: right;
+        }
+    }
+
 }

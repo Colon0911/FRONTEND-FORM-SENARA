@@ -8,6 +8,7 @@
 }
 
 .senara-forms {
+    margin: 1rem;
     display: grid;
     overflow-x: auto;
 
@@ -52,6 +53,18 @@
         button {
             justify-self: center;
             min-width: 20rem;
+        }
+
+        .btn-group {
+            justify-self: center;
+            position: relative;
+
+            >button.senara-btn-primary.btn-pdf {
+                position: absolute;
+                top: 0;
+                right: -60%;
+                min-width: 10rem;
+            }
         }
     }
 }

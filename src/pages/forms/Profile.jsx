@@ -24,6 +24,7 @@ const Profile = () => {
     const [cantons, setCantons] = useState()
     const [districts, setDistricts] = useState()
     const [provinceAux, setProvinceAux] = useState(data?.province || null)
+    const [cantonAux, setCantonAux] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onChange' })
 
@@ -39,6 +40,7 @@ const Profile = () => {
     const loadDistricts = (e = data?.canton) => {
         let idCanton = null;
         (typeof e === 'object' ? idCanton = e.target.value : idCanton = e)
+        setCantonAux(idCanton)
         fetch(`https://ubicaciones.paginasweb.cr/provincia/${provinceAux || data?.province}/canton/${idCanton}/distritos.json`)
             .then(res => res.json())
             .then(data => setDistricts(Object.values(data)))
@@ -65,8 +67,9 @@ const Profile = () => {
     }, [data])
 
     const onSubmit = async (values) => {
-        const id = getIdentification(token)
-        const res = await updateUser(id, values, token)
+        console.log(values)
+        // const id = getIdentification(token)
+        // const res = await updateUser(id, values, token)
     }
 
     return (
@@ -93,7 +96,7 @@ const Profile = () => {
                                     <FontAwesomeIcon icon={faUser} />
                                 </div>
                                 <div className="senara-form-group">
-                                    <input type="password" className='floating-input' value={data?.password} disabled />
+                                    <input type="password" className='floating-input' placeholder='*********' disabled />
                                     <FontAwesomeIcon icon={faKey} />
                                 </div>
                                 <div className="senara-form-group">
@@ -108,8 +111,8 @@ const Profile = () => {
                             <div>
                                 <div className="senara-form-group">
                                     {errors.province?.type === 'required' && <div className='a-alert'>La provincia es obligatoria!</div>}
-                                    <select {...register("province", { required: true, onChange: e => loadCantons(e) })} className="floating-select" defaultValue={data?.province} >
-                                        <option value=""> Seleccione una Provincia </option>
+                                    <select className="floating-select" {...register("province", { required: true, onChange: e => loadCantons(e) })} defaultValue={data?.province} >
+                                        <option value="" disabled selected> Provincia </option>
                                         {provinces?.map(value => (
                                             <option key={value} value={provinces.indexOf(value) + 1}>
                                                 {value}
@@ -119,8 +122,8 @@ const Profile = () => {
                                 </div>
                                 <div className="senara-form-group">
                                     {errors.canton?.type === 'required' && <div className='a-alert'>El cantón es obligatorio!</div>}
-                                    <select {...register("canton", { required: true, onChange: e => loadDistricts(e) })} className="floating-select" defaultValue={data?.canton} >
-                                        <option value=""> Seleccione un Cantón </option>
+                                    <select className="floating-select" disabled={provinceAux ? false : true} {...register("canton", { required: true, onChange: e => loadDistricts(e) })} defaultValue={data?.canton} >
+                                        <option value="" disabled selected> Cantón </option>
                                         {cantons?.map(value => (
                                             <option key={value} value={cantons.indexOf(value) + 1}>
                                                 {value}
@@ -130,8 +133,8 @@ const Profile = () => {
                                 </div>
                                 <div className="senara-form-group">
                                     {errors.district?.type === 'required' && <div className='a-alert'>El distrito es obligatorio!</div>}
-                                    <select {...register("district", { required: true })} className="floating-select" defaultValue={data?.district} >
-                                        <option value=""> Seleccione un Distrito </option>
+                                    <select className="floating-select" disabled={cantonAux && provinceAux ? false : true} {...register("district", { required: true })} defaultValue={data?.district} >
+                                        <option value="" disabled selected> Distrito </option>
                                         {districts?.map(value => (
                                             <option key={value} value={districts.indexOf(value) + 1}>
                                                 {value}
@@ -141,7 +144,7 @@ const Profile = () => {
                                 </div>
                                 <div className="senara-form-group">
                                     {errors.exactAddress?.type === 'required' && <div className='a-alert'>La dirección exacta es obligatoria!</div>}
-                                    <textarea className='floating-textarea' {...register('exactAddress', { required: true })} defaultValue={data?.exactAddress}></textarea>
+                                    <textarea placeholder='' className='floating-textarea' {...register('exactAddress', { required: true })} defaultValue={data?.exactAddress}></textarea>
                                     <label> Dirección Exacta </label>
                                 </div>
                             </div>
@@ -150,7 +153,9 @@ const Profile = () => {
                     </form>
                 </div>
                 :
-                <p>Loading...</p>
+                <div class="spinner-loading">
+                    <div></div><div></div><div></div><div></div>
+                </div>
             }
         </>
     )

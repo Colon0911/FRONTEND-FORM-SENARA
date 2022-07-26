@@ -66,6 +66,11 @@ img {
   align-self: center;
 }
 
+.senara-btn-primary.btn-register {
+  align-self: center;
+  width: 50%;
+}
+
 button:disabled {
   pointer-events: none;
   cursor: no-drop;
@@ -81,7 +86,7 @@ button:disabled {
   >svg {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 11px;
     color: v.$verdeOscuro;
     padding-right: 1rem; //
   }
@@ -119,6 +124,10 @@ button:disabled {
   background-color: v.$grisClaro;
 }
 
+.floating-select {
+  padding-left: 0.5rem;
+}
+
 .floating-input:focus,
 .floating-select:focus {
   outline: none;
@@ -138,7 +147,8 @@ label {
   -webkit-transition: 0.2s ease all;
 }
 
-.floating-input {
+.floating-input,
+.floating-textarea {
 
   &:focus~label,
   &:not(:placeholder-shown)~label {
@@ -146,6 +156,10 @@ label {
     font-size: 14px;
     color: v.$azulOscuro;
   }
+}
+
+.floating-textarea+label {
+  top: 15%
 }
 
 .floating-select {

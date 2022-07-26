@@ -159,6 +159,7 @@
 }
 
 @-webkit-keyframes sk-circleBounceDelay {
+
   0%,
   80%,
   100% {
@@ -173,6 +174,7 @@
 }
 
 @keyframes sk-circleBounceDelay {
+
   0%,
   80%,
   100% {
@@ -210,6 +212,7 @@
   top: calc(50% - 10vmin);
   width: 16vmin;
   z-index: 1;
+
   &:before {
     animation: spin 2s infinite linear;
     border: solid 2vmin transparent;
@@ -224,6 +227,7 @@
     top: 0;
     width: 12vmin;
   }
+
   &:after {
     animation: spin 3s infinite linear;
     border: solid 2vmin transparent;
@@ -239,6 +243,78 @@
     width: 8vmin;
   }
 }
+
+.spinner-loading {
+  place-self: center;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner-loading div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.spinner-loading div:nth-child(1) {
+  left: 8px;
+  background: #5d923a;
+  animation: spinner-loading1 0.6s infinite;
+}
+
+.spinner-loading div:nth-child(2) {
+  left: 8px;
+  background: #267438;
+  animation: spinner-loading2 0.6s infinite;
+}
+
+.spinner-loading div:nth-child(3) {
+  left: 32px;
+  background: rgb(0, 120, 0);
+  animation: spinner-loading2 0.6s infinite;
+}
+
+.spinner-loading div:nth-child(4) {
+  left: 56px;
+  background: #07392a;
+  animation: spinner-loading3 0.6s infinite;
+}
+
+@keyframes spinner-loading1 {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spinner-loading3 {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes spinner-loading2 {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
 
 @keyframes spin {
   100% {
