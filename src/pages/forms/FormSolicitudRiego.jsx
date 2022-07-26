@@ -348,7 +348,7 @@ const FormSolicitudRiego = () => {
                           type="date"
                           className="floating-input"
                         ></Field>
-                        <label>Fecha de ultimo riego</label>
+                        <label>Fecha del recibo de riego</label>
                         <span className="highlight"></span>
                         <FontAwesomeIcon icon={faCalendarDays} />
                       </div>
