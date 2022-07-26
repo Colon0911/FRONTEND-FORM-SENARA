@@ -1,7 +1,7 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
-export const PDFPlanRiego = () => {
+export const PDFPlanRiego = (data) => {
 
     const doc = new jsPDF('p', 'mm', [297, 210])
 
@@ -14,7 +14,7 @@ export const PDFPlanRiego = () => {
     // Section 1
     doc.setFont("times", "normal")
     doc.setFontSize(9)
-    doc.text("Yo, ___________________________________________, cédula N° _____________________,", 20, 35)
+    doc.text("Yo, '___________________________________________', cédula N° _____________________,", 20, 35)
     doc.text("actuando en mi nombre, o en representación legal de la persona jurídica denominada " +
         "____________________________________________, cédula jurídica __________________ en calidad de usuario del predio " +
         "inscrito en el Padrón de Usuario con el número _______ ubicado en el Sector Hidráulico ____________________________ del " +
@@ -40,14 +40,18 @@ export const PDFPlanRiego = () => {
 
     // Section 3
     // Crops Table
-    // doc.table(20, 110, data, headers, { autoSize: true })
     autoTable(doc, {
         startY: 110,
-        styles: { valign: 'middle', halign: 'center' },
-        head: [['Cultivo', 'Toma', 'Area', 'Fecha']],
+        styles: {
+            valign: 'middle',
+            halign: 'center',
+            lineColor: 'black',
+            lineWidth: .1,
+        },
+        head: [['Cultivo', 'Toma', 'Área (ha)', 'Fecha de siembra propuesta']],
         body: [['Patata', '21', '20', '06.06.2022']],
         margin: { left: 20, right: 20 },
-        theme: 'plain'
+        theme: 'plain',
     })
 
     // Footer

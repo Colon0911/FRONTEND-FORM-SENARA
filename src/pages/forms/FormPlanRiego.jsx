@@ -74,8 +74,12 @@ const FormPlanRiego = () => {
     }, [])
 
     const handlePDF = (values) => {
-        console.log(values)
-        PDFPlanRiego()
+        const { fullName, identification, phone, exactAddress, email } = data
+        const subAux = sectors.filter(e => e.id === values.hydraulicSector)
+        const hydraulicAux = subDistricts.filter(e => e.id === values.hydraulicSector)
+        const subName = subAux[0].sector
+        const hydraulicName = hydraulicAux[0].subdistrito
+        PDFPlanRiego({ ...values, fullName, identification, phone, exactAddress, email, subName, hydraulicName })
     }
 
     const handleSubmit = async (values) => {
@@ -85,7 +89,7 @@ const FormPlanRiego = () => {
             setShowPDF(true)
             notification(status)
         }
-        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
