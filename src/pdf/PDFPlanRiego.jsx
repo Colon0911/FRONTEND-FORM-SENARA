@@ -1,37 +1,7 @@
 import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
-export const TestenPDF = () => {
-
-    const data = [
-        {
-            Cultivo: "Patata",
-            Toma: "21",
-            Área: "200",
-            Fecha_de_siembra_propuesta: "10-10-2022"
-        }
-    ]
-
-    function createHeaders(keys) {
-        let result = [];
-        for (let i = 0; i < keys.length; i += 1) {
-            result.push({
-                id: keys[i],
-                name: keys[i],
-                prompt: keys[i],
-                width: 65,
-                align: "center",
-                padding: 0
-            });
-        }
-        return result;
-    }
-
-    const headers = createHeaders([
-        "Cultivo",
-        "Toma",
-        "Área",
-        "Fecha_de_siembra_propuesta"
-    ])
+export const PDFPlanRiego = () => {
 
     const doc = new jsPDF('p', 'mm', [297, 210])
 
@@ -52,7 +22,7 @@ export const TestenPDF = () => {
         "deber de usuario establecido en el Reglamento de Servicio de Riego vigente, en su artículo 13, inciso 13.1 que textualmente dice:", 20, 40, { maxWidth: 170, align: "justify", lineHeightFactor: 1.4 }
     )
     doc.setFont("times", "bold")
-    doc.text('"Solicitar semestralmente la incorporación de sus planes de cultivos dentro del plan de riego del' +
+    doc.text('"Solicitar semestralmente la incorporación de sus planes de cultivos dentro del plan de riego del ' +
         'Distrito, antes del 15 de abril y 14 de octubre de cada año. EL SENARA atenderá las solicitudes para cada semestre' +
         'definiendo el plan de riego del Distrito, el cual se ajustará a la disponibilidad de agua, las condiciones del suelo y los' +
         'requerimientos de los cultivos. Si el usuario no aporta los datos a su debido tiempo, el SENARA procederá a estimarlos' +
@@ -70,7 +40,15 @@ export const TestenPDF = () => {
 
     // Section 3
     // Crops Table
-    doc.table(20, 110, data, headers, { autoSize: true })
+    // doc.table(20, 110, data, headers, { autoSize: true })
+    autoTable(doc, {
+        startY: 110,
+        styles: { valign: 'middle', halign: 'center' },
+        head: [['Cultivo', 'Toma', 'Area', 'Fecha']],
+        body: [['Patata', '21', '20', '06.06.2022']],
+        margin: { left: 20, right: 20 },
+        theme: 'plain'
+    })
 
     // Footer
     // User Info

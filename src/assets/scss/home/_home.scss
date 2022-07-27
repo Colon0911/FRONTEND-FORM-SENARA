@@ -18,7 +18,7 @@
     grid-template-rows: 1fr 4fr;
 
     @include m.tablet {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1fr 3fr;
     }
 
     @include m.desktop {
