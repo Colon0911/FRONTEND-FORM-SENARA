@@ -361,7 +361,6 @@ const FormSolicitudRiego = () => {
                         ></Field>
                         <label>Fecha del recibo de riego</label>
                         <span className="highlight"></span>
-                        <FontAwesomeIcon icon={faCalendarDays} />
                       </div>
                       <legend className="senara-description-page">
                         Datos de Contacto:
