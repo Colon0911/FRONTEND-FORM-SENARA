@@ -39,6 +39,7 @@ const FormDeQuejas = () => {
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
     nToma: Yup.string().required('El Nº Toma es obligatorio!'),
     problematica: Yup.string().required('El campo es obligatorio!'),
+    cuando: Yup.string().required('El campo es obligatorio!'),
     reportado: Yup.string().required('El campo es obligatorio!'),
     respInst: Yup.string().required('El campo es obligatorio!'),
     solucion: Yup.string().required('El campo es obligatorio!'),
@@ -69,8 +70,12 @@ const FormDeQuejas = () => {
   }, [])
 
   const handlePDF = (values) => {
-    // PDFQuejas(values)
+    const { fullName, phone, identification } = data
+    const aux = subDistrito.filter((e) => e.id === values.lugar)
+    const subName = aux[0].subdistrito
+    PDFQuejas({ ...values, date, hourNow, fullName, phone, identification, subName })
   }
+
 
   const handleSubmit = async (values) => {
     const { fullName, phone, identification } = data
@@ -88,20 +93,21 @@ const FormDeQuejas = () => {
       <div className="senara-forms">
         <Formik
           initialValues={{
-            tipoUsuario: "",
-            lugar: "",
-            nParcela: "",
-            nToma: "",
-            problematica: "",
-            reportado: "",
-            respInst: "",
-            solucion: "",
-            aporte: ""
+            tipoUsuario: "Productor",
+            lugar: "1",
+            nParcela: "874",
+            nToma: "545",
+            problematica: "dhdfhdfj",
+            cuando: "jsdlgkjsl",
+            reportado: "hdghdfh",
+            respInst: "hdhdfhdfh",
+            solucion: "hdfhdfhdf",
+            aporte: "hdfhdhghdfhdfhfd"
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}
         >
-          {({ errors, touched }) => {
+          {({ errors, touched, values }) => {
             return (
               <Form className="forms-container">
                 {loading
@@ -238,6 +244,23 @@ const FormDeQuejas = () => {
 
                     <div className="forms-content-group-item">
                       <div className="senara-form-group">
+                        {errors.cuando && touched.cuando ? (
+                          <div className="a-alert">{errors.cuando}</div>
+                        ) : null}
+                        <Field
+                          as="textarea"
+                          id="cuando"
+                          name="cuando"
+                          placeholder=""
+                          className="floating-textarea"
+                        />
+
+                        <label> Desde cuando presenta el problema </label>
+                      </div>
+                    </div>
+
+                    <div className="forms-content-group-item">
+                      <div className="senara-form-group">
                         {errors.reportado && touched.reportado ? (
                           <div className="a-alert">{errors.reportado}</div>
                         ) : null}
@@ -351,8 +374,6 @@ const FormDeQuejas = () => {
                     <div></div><div></div><div></div><div></div>
                   </div>
                 }
-
-
               </Form>
             )
           }}
