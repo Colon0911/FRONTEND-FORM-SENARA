@@ -74,8 +74,12 @@ const FormPlanRiego = () => {
     }, [])
 
     const handlePDF = (values) => {
-        console.log(values)
-        PDFPlanRiego()
+        const { fullName, identification, phone, exactAddress, email } = data
+        const hydraulicAux = subDistricts.filter(e => e.id === values.subDistrict)
+        const subAux = sectors.filter(e => e.id === values.hydraulicSector)
+        const hydraulicName = hydraulicAux[0].subdistrito
+        const subName = subAux[0].sector
+        PDFPlanRiego({ ...values, fullName, identification, phone, exactAddress, email, subName, hydraulicName })
     }
 
     const handleSubmit = async (values) => {
@@ -96,17 +100,23 @@ const FormPlanRiego = () => {
             <div className="senara-forms">
                 <Formik
                     initialValues={{
-                        standardNumber: '',
+                        standardNumber: '21',
                         subDistrict: '',
                         hydraulicSector: '',
-                        irrigableSurface: '',
-                        date: '',
+                        irrigableSurface: '20',
+                        date: '2022-07-27',
                         crops: [
                             {
-                                cultivo: '',
-                                toma: '',
-                                area: '',
-                                fecha: ''
+                                cultivo: 'Patata',
+                                toma: '21',
+                                area: '200',
+                                fecha: '2022-07-28'
+                            },
+                            {
+                                cultivo: 'Batata',
+                                toma: '31',
+                                area: '300',
+                                fecha: '2022-07-28'
                             }
                         ],
                     }}

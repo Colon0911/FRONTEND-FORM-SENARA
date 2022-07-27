@@ -10,7 +10,10 @@
 .senara-forms {
     margin: 1rem;
     display: grid;
-    overflow-x: auto;
+
+    @include m.tablet {
+        overflow-x: auto;
+    }
 
     .forms-container {
         display: grid;
