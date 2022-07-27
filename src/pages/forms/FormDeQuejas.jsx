@@ -38,12 +38,18 @@ const FormDeQuejas = () => {
     lugar: Yup.string().required('El Lugar es obligatorio!'),
     nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
     nToma: Yup.string().required('El Nº Toma es obligatorio!'),
-    problematica: Yup.string().required('El campo es obligatorio!'),
-    cuando: Yup.string().required('El campo es obligatorio!'),
-    reportado: Yup.string().required('El campo es obligatorio!'),
-    respInst: Yup.string().required('El campo es obligatorio!'),
-    solucion: Yup.string().required('El campo es obligatorio!'),
+    problematica: Yup.string().required('El campo es obligatorio!')
+      .max(500, 'Maximo 500 Caracteres!'),
+    cuando: Yup.string().required('El campo es obligatorio!')
+      .max(250, 'Maximo 250 Caracteres!'),
+    reportado: Yup.string().required('El campo es obligatorio!')
+      .max(130, 'Maximo 130 Caracteres!'),
+    respInst: Yup.string().required('El campo es obligatorio!')
+      .max(250, 'Maximo 250 Caracteres!'),
+    solucion: Yup.string().required('El campo es obligatorio!')
+      .max(250, 'Maximo 250 Caracteres!'),
     aporte: Yup.string().required('El campo es obligatorio!')
+      .max(250, 'Maximo 250 Caracteres!')
 
   })
 
@@ -265,11 +271,11 @@ const FormDeQuejas = () => {
                           <div className="a-alert">{errors.reportado}</div>
                         ) : null}
                         <Field
-                          as="textarea"
+                          type="text"
                           id="reportado"
                           name="reportado"
                           placeholder=""
-                          className="floating-textarea"
+                          className="floating-input"
                         />
 
                         <label> Lo ha reportado anteriormente </label>
