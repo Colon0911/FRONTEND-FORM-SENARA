@@ -4,6 +4,9 @@ import { Formik, Form, Field } from 'formik'
 import { PDFSolicitudRiego } from '../../pdf/PDFSolicitudRiego'
 import { getData } from '../../helpers/loadUserData'
 import { solicitudCreate } from '../../services/formServices'
+import { ToastContainer } from 'react-toastify'
+import { notification } from '../../components/Toast'
+import 'react-toastify/ReactToastify.min.css'
 
 import * as Yup from 'yup'
 
@@ -31,15 +34,22 @@ const FormSolicitudRiego = () => {
   if (!user) return <Navigate to="/" />
 
   const profileSchema = Yup.object().shape({
-    nParcela: Yup.string().required('Este campo es necesario'),
-    proyecto: Yup.string().required('Este campo es necesario'),
+    nParcela: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
+    proyecto: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
     subDistrito: Yup.string().required('Este campo es necesario'),
     area: Yup.number()
       .required('Este campo es necesario')
-      .typeError('Este campo es numerico'),
+      .typeError('Este campo es numerico')
+      .max(20, 'Maximo 20 caracteres'),
     cultivo: Yup.string().required('Este campo es necesario'),
     variedad: Yup.string().required('Este campo es necesario'),
-    rendimientoAnterior: Yup.string().required('Este campo es necesario'),
+    rendimientoAnterior: Yup.string()
+      .required('Este campo es necesario')
+      .max(20, 'Maximo 20 caracteres'),
     exactAddress: Yup.string()
       .min(30, 'Minimo 30 caracteres')
       .max(100, 'Maximo 100 caracteres'),
@@ -103,6 +113,7 @@ const FormSolicitudRiego = () => {
       let res = await solicitudCreate(object, token)
       if (res.status === 200) {
         setFlag(true)
+        notification(res.status)
       }
       console.log(res)
     } catch (error) {}
@@ -350,7 +361,6 @@ const FormSolicitudRiego = () => {
                         ></Field>
                         <label>Fecha del recibo de riego</label>
                         <span className="highlight"></span>
-                        <FontAwesomeIcon icon={faCalendarDays} />
                       </div>
                       <legend className="senara-description-page">
                         Datos de Contacto:
@@ -430,13 +440,19 @@ const FormSolicitudRiego = () => {
                     ) : null}
                   </>
                 ) : (
-                  <p>Loading</p>
+                  <div className="spinner-loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
                 )}
               </Form>
             )
           }}
         </Formik>
       </div>
+      <ToastContainer position="bottom-right" theme="colored" />
     </>
   )
 }
