@@ -4,7 +4,6 @@ import autoTable from 'jspdf-autotable'
 export const PDFPlanRiego = (data) => {
     const crops = data.crops
     let info = []
-    console.log(data)
 
     crops.forEach((e, i) => {
         info.push([e.cultivo, e.toma, e.area, e.fecha])
@@ -40,14 +39,16 @@ export const PDFPlanRiego = (data) => {
         doc.text(data.identification, 115, 44.5)
     }
 
-    doc.text(data.standardNumber, 105, 55.5)
-    doc.text(data.hydraulicName, 130, 55.5)
+    doc.text(data.standardNumber, 89, 49)
+    doc.text(data.hydraulicName, 142, 49)
+    doc.text(data.subName, 36, 53.5)
+    doc.text(data.irrigableSurface, 120, 53.5)
 
     doc.setFont("times", "bold")
     doc.text('"Solicitar semestralmente la incorporación de sus planes de cultivos dentro del plan de riego del ' +
-        'Distrito, antes del 15 de abril y 14 de octubre de cada año. EL SENARA atenderá las solicitudes para cada semestre' +
-        'definiendo el plan de riego del Distrito, el cual se ajustará a la disponibilidad de agua, las condiciones del suelo y los' +
-        'requerimientos de los cultivos. Si el usuario no aporta los datos a su debido tiempo, el SENARA procederá a estimarlos' +
+        'Distrito, antes del 15 de abril y 14 de octubre de cada año. EL SENARA atenderá las solicitudes para cada semestre ' +
+        'definiendo el plan de riego del Distrito, el cual se ajustará a la disponibilidad de agua, las condiciones del suelo y los ' +
+        'requerimientos de los cultivos. Si el usuario no aporta los datos a su debido tiempo, el SENARA procederá a estimarlos ' +
         'discrecionalmente con base en la información que tenga disponible."', 20, 65, { maxWidth: 170, align: "justify", lineHeightFactor: 1.4 }
     )
 
@@ -79,20 +80,24 @@ export const PDFPlanRiego = (data) => {
     // Footer
     // User Info
     doc.setFontSize(9)
-    doc.text("___________________________________", 20, 150)
-    doc.text("Firma y cédula del usuario o representante legal", 20, 155)
-    doc.text("Teléfono: _____________________", 20, 160)
-    doc.text("Dirección: _____________________", 20, 165)
-    doc.text("Correo Electrónico: _____________________", 20, 170)
+    doc.text("___________________________________", 20, 205)
+    doc.text("Firma y cédula del usuario o representante legal", 20, 210)
+    doc.text("Teléfono: _____________________", 20, 215)
+    doc.text("Dirección: __________________________________", 20, 220)
+    doc.text("Correo Electrónico: _____________________", 20, 225)
+
+    doc.text(data.phone, 35, 215)
+    doc.text(data.exactAddress, 35, 220)
+    doc.text(data.email, 47, 225)
 
     // SENARA
     doc.setDrawColor(0, 0, 0)
-        .line(137, 150, 137, 180)
-        .line(187, 150, 187, 180)
-        .line(187, 150, 137, 150)
-        .line(187, 180, 137, 180)
-    doc.text("____________________________", 140, 170)
-    doc.text("Recibido en SENARA", 140, 175)
+        .line(137, 200, 137, 230)
+        .line(187, 200, 187, 230)
+        .line(187, 200, 137, 200)
+        .line(187, 230, 137, 230)
+    doc.text("____________________________", 140, 220)
+    doc.text("Recibido en SENARA", 140, 225)
 
 
     doc.save("teste.pdf")

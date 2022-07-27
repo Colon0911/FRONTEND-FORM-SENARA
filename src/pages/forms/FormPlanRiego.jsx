@@ -75,12 +75,10 @@ const FormPlanRiego = () => {
 
     const handlePDF = (values) => {
         const { fullName, identification, phone, exactAddress, email } = data
+        const hydraulicAux = subDistricts.filter(e => e.id === values.subDistrict)
         const subAux = sectors.filter(e => e.id === values.hydraulicSector)
-        const hydraulicAux = subDistricts.filter(e => e.id === values.hydraulicSector)
-        const subName = subAux[0].sector
         const hydraulicName = hydraulicAux[0].subdistrito
-        console.log(subName)
-        console.log(hydraulicName)
+        const subName = subAux[0].sector
         PDFPlanRiego({ ...values, fullName, identification, phone, exactAddress, email, subName, hydraulicName })
     }
 
