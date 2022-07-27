@@ -2,6 +2,13 @@ import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 export const PDFPlanRiego = (data) => {
+    const crops = data.crops
+    let info = []
+    console.log(data)
+
+    crops.forEach((e, i) => {
+        info.push([e.cultivo, e.toma, e.area, e.fecha])
+    })
 
     const doc = new jsPDF('p', 'mm', [297, 210])
 
@@ -14,13 +21,28 @@ export const PDFPlanRiego = (data) => {
     // Section 1
     doc.setFont("times", "normal")
     doc.setFontSize(9)
-    doc.text("Yo, '___________________________________________', cédula N° _____________________,", 20, 35)
+    doc.text("Yo, ___________________________________________, cédula N° _____________________,", 20, 35)
+
+    if (data.identification.lengt === 9) {
+        doc.text(data.fullName, 27, 35)
+        doc.text(data.identification, 110, 35)
+    }
+
     doc.text("actuando en mi nombre, o en representación legal de la persona jurídica denominada " +
         "____________________________________________, cédula jurídica __________________ en calidad de usuario del predio " +
         "inscrito en el Padrón de Usuario con el número _______ ubicado en el Sector Hidráulico ____________________________ del " +
         "Subdistrito _____________________ con una superficie total regable de __________________ hectáreas y en cumplimiento con el " +
         "deber de usuario establecido en el Reglamento de Servicio de Riego vigente, en su artículo 13, inciso 13.1 que textualmente dice:", 20, 40, { maxWidth: 170, align: "justify", lineHeightFactor: 1.4 }
     )
+
+    if (data.identification.length === 10) {
+        doc.text(data.fullName, 22, 44.5)
+        doc.text(data.identification, 115, 44.5)
+    }
+
+    doc.text(data.standardNumber, 105, 55.5)
+    doc.text(data.hydraulicName, 130, 55.5)
+
     doc.setFont("times", "bold")
     doc.text('"Solicitar semestralmente la incorporación de sus planes de cultivos dentro del plan de riego del ' +
         'Distrito, antes del 15 de abril y 14 de octubre de cada año. EL SENARA atenderá las solicitudes para cada semestre' +
@@ -49,7 +71,7 @@ export const PDFPlanRiego = (data) => {
             lineWidth: .1,
         },
         head: [['Cultivo', 'Toma', 'Área (ha)', 'Fecha de siembra propuesta']],
-        body: [['Patata', '21', '20', '06.06.2022']],
+        body: info,
         margin: { left: 20, right: 20 },
         theme: 'plain',
     })
@@ -64,7 +86,6 @@ export const PDFPlanRiego = (data) => {
     doc.text("Correo Electrónico: _____________________", 20, 170)
 
     // SENARA
-    // doc.getDrawColor(0, 255, 0).setLineWidth(1 / 1).line(20)
     doc.setDrawColor(0, 0, 0)
         .line(137, 150, 137, 180)
         .line(187, 150, 187, 180)

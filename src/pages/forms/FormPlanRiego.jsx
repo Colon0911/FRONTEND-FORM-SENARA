@@ -79,6 +79,8 @@ const FormPlanRiego = () => {
         const hydraulicAux = subDistricts.filter(e => e.id === values.hydraulicSector)
         const subName = subAux[0].sector
         const hydraulicName = hydraulicAux[0].subdistrito
+        console.log(subName)
+        console.log(hydraulicName)
         PDFPlanRiego({ ...values, fullName, identification, phone, exactAddress, email, subName, hydraulicName })
     }
 
@@ -89,7 +91,7 @@ const FormPlanRiego = () => {
             setShowPDF(true)
             notification(status)
         }
-        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
@@ -100,17 +102,23 @@ const FormPlanRiego = () => {
             <div className="senara-forms">
                 <Formik
                     initialValues={{
-                        standardNumber: '',
+                        standardNumber: '21',
                         subDistrict: '',
                         hydraulicSector: '',
-                        irrigableSurface: '',
-                        date: '',
+                        irrigableSurface: '20',
+                        date: '2022-07-27',
                         crops: [
                             {
-                                cultivo: '',
-                                toma: '',
-                                area: '',
-                                fecha: ''
+                                cultivo: 'Patata',
+                                toma: '21',
+                                area: '200',
+                                fecha: '2022-07-28'
+                            },
+                            {
+                                cultivo: 'Batata',
+                                toma: '31',
+                                area: '300',
+                                fecha: '2022-07-28'
                             }
                         ],
                     }}
