@@ -28,9 +28,9 @@ function App() {
             <Route path="reset-password/:token" element={<ResetPassword />} />
           </Route>
           <Route path="/dashboard" element={<HomeLayouts />}>
+            <Route path="home" element={<Home />} />
             <Route path="profile" element={<Profile />} />
             <Route path="plan-riego" element={<FormPlanRiego />} />
-            <Route path="home" index element={<Home />} />
             <Route
               path="form-solicitud-riego"
               element={<FormSolicitudRiego />}

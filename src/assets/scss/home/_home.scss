@@ -2,84 +2,131 @@
 @use 'base/mixins' as m;
 
 .senara-dashboard {
+  display: grid;
+  grid-template-rows: 140px 1fr;
+  //background-color: v.$grisClaro;
+  background-color: v.$bgGris;
+  overflow: hidden;
+
+  @include m.tablet {
+    // display: flex;
+    height: 100vh;
+  }
+
+  .senara-content-principal {
     display: grid;
-    grid-template-rows: 140px 1fr;
-    //background-color: v.$grisClaro;
-    background-color: v.$bgGris;
-    overflow: hidden;
+    grid-template-rows: 1fr 4fr;
 
     @include m.tablet {
-        // display: flex;
-        height: 100vh;
+      grid-template-columns: 1fr 2fr;
     }
 
-    .senara-content-principal {
-        display: grid;
-        grid-template-rows: 1fr 4fr;
+    @include m.desktop {
+      grid-template-columns: 1fr 4fr;
+    }
+  }
 
-        @include m.tablet {
-            grid-template-columns: 1fr 2fr;
-        }
+  .senara-content {
+    background-color: v.$blanco;
+    border-radius: v.$radiusContenedor;
+    display: grid;
+    grid-template-rows: 40px 1fr;
+    margin: 2rem;
+    box-shadow: v.$boxShadow;
 
-        @include m.desktop {
-            grid-template-columns: 1fr 4fr;
-        }
+    @include m.tablet {
+      margin: 1rem 2rem;
+      height: calc(100vh - 170px);
     }
 
-    .senara-content {
-        background-color: v.$blanco;
-        border-radius: v.$radiusContenedor;
-        display: grid;
-        grid-template-rows: 40px 1fr;
-        height: calc(100vh - 170px);
-        margin: 2rem;
-        box-shadow: v.$boxShadow;
+    .senara-home {
+      display: grid;
+      place-content: center;
+      margin: 0 5rem;
+      overflow-x: auto;
 
-        @include m.tablet {
-            margin: 1rem 2rem;
-        }
-
-        // @include m.desktop {
-        //     margin: 4rem 2rem;
-        // }
-
-        // width: 100%;
-        // align-items: center;
-        // display: flex;
-        // justify-content: center;
-        // padding: 0 2rem;
+      .senara-legend-home {
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+      }
     }
 
-    .senara-page-name {
-        font-size: 3rem;
-        text-align: left;
-        color: v.$verdeClaro;
-        margin: 0;
-        padding: 1rem 2rem 0 2rem;
-    }
+    // @include m.desktop {
+    //     margin: 4rem 2rem;
+    // }
 
-    .container-sm {
-        height: 86%;
-        width: 100%;
-        overflow-y: scroll;
-        padding: 0 2rem;
-        align-self: flex-start;
+    // width: 100%;
+    // align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // padding: 0 2rem;
+  }
 
-        &::-webkit-scrollbar {
-            display: none;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+  .senara-home-tagline {
+    font-family: v.$fuente_headings;
+    font-weight: 600;
+    color: v.$verdeOscuro !important;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 3rem;
+  }
+
+  .senara-home-description {
+    text-align: center;
+    padding: 2rem 0;
+    margin: 0;
+    font-size: 2rem;
+    color: v.$verdeOscuro !important;
+  }
+
+  .senara-home-logo {
+    margin: 0 auto;
+    width: 20rem;
+    height: 10rem;
+    display: flex;
+
+    .senara-home-img-logo {
+      width: 100%;
+      background-image: url('../img/logo_letra.png');
+      background-size: cover;
+      background-position: center center;
     }
+  }
+
+  .senara-page-name {
+    font-size: 3rem;
+    text-align: left;
+    color: v.$verdeClaro;
+    margin: 0;
+    padding: 1rem 2rem 0 2rem;
+  }
+
+  .container-sm {
+    height: 86%;
+    width: 100%;
+    overflow-y: scroll;
+    padding: 0 2rem;
+    align-self: flex-start;
+
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
 }
 
 .container-notfound {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
-    >i {
-        font-size: 10rem;
-        color: darken(v.$azulClaro, 25%);
-    }
+  > i {
+    font-size: 10rem;
+    color: darken(v.$azulClaro, 25%);
+  }
 }
