@@ -118,7 +118,7 @@ const FormSolicitudRiego = () => {
       console.log(res)
     } catch (error) {}
 
-    //PDFSolicitudRiego(values, data)
+    PDFSolicitudRiego(values, data)
   }
 
   return (

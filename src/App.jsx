@@ -17,27 +17,30 @@ import FormPlanRiego from './pages/forms/FormPlanRiego'
 
 // Primer Route = Area Publica
 function App() {
-	return (
-		<BrowserRouter>
-			<AuthProvider>
-				<Routes>
-					<Route path="/" element={<AuthLayouts />}>
-						<Route index element={<Login />} />
-						<Route path="register" element={<Register />} />
-						<Route path="forget-password" element={<ForgetPassword />} />
-						<Route path="reset-password/:token" element={<ResetPassword />} />
-					</Route>
-					<Route path="/dashboard" element={<HomeLayouts />}>
-            <Route path="home" element={<Home />} />
-						<Route path="profile" element={<Profile />} />
-						<Route path="plan-riego" element={<FormPlanRiego />} />
-						<Route path="form-solicitud-riego" element={<FormSolicitudRiego />} />
-						<Route path="form-de-quejas" element={<FormDeQuejas />} />
-					</Route>
-				</Routes>
-			</AuthProvider>
-		</BrowserRouter>
-	)
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<AuthLayouts />}>
+            <Route index element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="forget-password" element={<ForgetPassword />} />
+            <Route path="reset-password/:token" element={<ResetPassword />} />
+          </Route>
+          <Route path="/dashboard" element={<HomeLayouts />}>
+            <Route path="home" index element={<Home />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="plan-riego" element={<FormPlanRiego />} />
+            <Route
+              path="form-solicitud-riego"
+              element={<FormSolicitudRiego />}
+            />
+            <Route path="form-de-quejas" element={<FormDeQuejas />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  )
 }
 
 export default App
