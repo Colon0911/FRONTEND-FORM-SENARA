@@ -9,15 +9,36 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import Logo from '../../components/Logo';
 
+import { ToastContainer } from 'react-toastify'
+import { notification } from '../../components/Toast'
+import "react-toastify/ReactToastify.min.css";
+
 const Register = () => {
+
+    const [isID, setIsID] = useState()
+
+    const checkID = (identification) => {
+        fetch(`https://apis.gometa.org/cedulas/${identification}`)
+            .then(res => res.json())
+            .then(data => data.resultcount === 1 ? setIsID(true) : setIsID(false))
+    }
+
     const registerSchema = Yup.object().shape({
         identificationType: Yup.string().required('Tipo de Cédula obligatorio!'),
         identification: Yup.string().when('identificationType', {
             is: 'physical',
             then: Yup.string().matches(/^[1-9]\d{8}$/, 'Formato Costarricense obligatorio!')
-                .min(9, 'Minimo 9 digitos!').max(9, 'Maximo 9 digitos!').required('La cédula es obligatoria!'),
-            otherwise: Yup.string().matches(/^[2|3|4|5]\d{9}$/, 'Formato Costarricense obligatorio!')
-                .min(10, 'Minimo 10 digitos!').max(10, 'Maximo 10 digitos!').required('La cédula es obligatoria!')
+                .min(9, 'Minimo 9 digitos!').max(9, 'Maximo 9 digitos!').required('La cédula es obligatoria!')
+                .test((value) => {
+                    checkID(value);
+                    return (isID ? true : false);
+                }),
+            otherwise: Yup.string().matches(/^[2|3|4|5]\d{11}$/, 'Formato Costarricense obligatorio!')
+                .min(12, 'Minimo 10 digitos!').max(12, 'Maximo 12 digitos!').required('La cédula es obligatoria!')
+                .test((value) => {
+                    checkID(value);
+                    return (isID ? true : false);
+                })
         }),
         fullName: Yup.string()
             .min(3, 'El nombre es muy corto')
@@ -41,8 +62,6 @@ const Register = () => {
     const navigate = useNavigate()
 
     const [step, setStep] = useState(1)
-    const [isDisabled, setIsDisabled] = useState(false)
-    const [isID, setIsID] = useState()
 
     const nextStep = () => setStep(step + 1)
     // const previousStep = () => setStep(step - 1)
@@ -51,9 +70,12 @@ const Register = () => {
         delete e['confirmation']
         const res = await registerUser(e)
         if (res.status === 200) {
+            notification(res.status)
             setTimeout(() => {
                 navigate("/", { replace: true })
-            }, 500);
+            }, 1500);
+        } else {
+            notification(res.status)
         }
     }
 
@@ -122,6 +144,7 @@ const Register = () => {
                     )
                 }}
             </Formik>
+            <ToastContainer position="bottom-right" theme='colored' />
         </div>
     )
 }

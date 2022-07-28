@@ -86,9 +86,13 @@ const FormDeQuejas = () => {
   const handleSubmit = async (values) => {
     const { fullName, phone, identification } = data
     const nombreQuejoso = fullName
-    const status = 200
-    if (status === 200) setShowPDF(true)
-    // const res = await agregarQueja({ ...values, fullName, phone, identification, nombreQuejoso, hourNow }, token)
+    const res = await agregarQueja({ ...values, fullName, phone, identification, nombreQuejoso, hourNow }, token)
+    if (res.status === 200) {
+      setShowPDF(true)
+      notification(res.status)
+    } else {
+      notification(res.status)
+    }
   }
 
   return (
@@ -99,16 +103,16 @@ const FormDeQuejas = () => {
       <div className="senara-forms">
         <Formik
           initialValues={{
-            tipoUsuario: "Productor",
-            lugar: "1",
-            nParcela: "874",
-            nToma: "545",
-            problematica: "dhdfhdfj",
-            cuando: "jsdlgkjsl",
-            reportado: "hdghdfh",
-            respInst: "hdhdfhdfh",
-            solucion: "hdfhdfhdf",
-            aporte: "hdfhdhghdfhdfhfd"
+            tipoUsuario: "",
+            lugar: "",
+            nParcela: "",
+            nToma: "",
+            problematica: "",
+            cuando: "",
+            reportado: "",
+            respInst: "",
+            solucion: "",
+            aporte: ""
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={profileSchema}

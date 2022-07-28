@@ -84,12 +84,13 @@ const FormPlanRiego = () => {
 
     const handleSubmit = async (values) => {
         const { fullName, identification, phone, exactAddress, email } = data
-        const status = 200
-        if (status === 200) {
+        const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
+        if (res.status === 200) {
             setShowPDF(true)
-            notification(status)
+            notification(res.status)
+        } else {
+            notification(res.status)
         }
-        // const res = await addPlan({ ...values, fullName, identification, phone, exactAddress, email }, token)
     }
 
     return (
@@ -100,23 +101,17 @@ const FormPlanRiego = () => {
             <div className="senara-forms">
                 <Formik
                     initialValues={{
-                        standardNumber: '21',
+                        standardNumber: '',
                         subDistrict: '',
                         hydraulicSector: '',
-                        irrigableSurface: '20',
-                        date: '2022-07-27',
+                        irrigableSurface: '',
+                        date: '',
                         crops: [
                             {
-                                cultivo: 'Patata',
-                                toma: '21',
-                                area: '200',
-                                fecha: '2022-07-28'
-                            },
-                            {
-                                cultivo: 'Batata',
-                                toma: '31',
-                                area: '300',
-                                fecha: '2022-07-28'
+                                cultivo: '',
+                                toma: '',
+                                area: '',
+                                fecha: ''
                             }
                         ],
                     }}

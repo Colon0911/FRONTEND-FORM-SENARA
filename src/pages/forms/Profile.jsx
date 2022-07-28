@@ -73,8 +73,13 @@ const Profile = () => {
 
     const onSubmit = async (values) => {
         console.log(values)
-        // const id = getIdentification(token)
-        // const res = await updateUser(id, values, token)
+        const id = getIdentification(token)
+        const res = await updateUser(id, values, token)
+        if (res.status === 200) {
+            notification(res.status)
+        } else {
+            notification(res.status)
+        }
     }
 
     return (
@@ -82,86 +87,88 @@ const Profile = () => {
             <div className='title-container'>
                 <p> Perfil </p>
             </div>
-            {loading
-                ?
-                <div className="senara-forms">
-                    <form onSubmit={handleSubmit(onSubmit)} className="forms-container">
-                        <div className="forms-content">
-                            <div>
-                                <div className="senara-form-group">
-                                    <input type="text" className='floating-input' value={data?.fullName} disabled />
-                                    <FontAwesomeIcon icon={faAddressCard} />
+            <div className="senara-forms">
+                <form onSubmit={handleSubmit(onSubmit)} className="forms-container">
+                    {loading
+                        ?
+                        <>
+                            <div className="forms-content">
+                                <div>
+                                    <div className="senara-form-group">
+                                        <input type="text" className='floating-input' value={data?.fullName} disabled />
+                                        <FontAwesomeIcon icon={faAddressCard} />
+                                    </div>
+                                    <div className="senara-form-group">
+                                        <input type="email" className='floating-input' value={data?.email} disabled />
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    </div>
+                                    <div className="senara-form-group">
+                                        <input type="text" className='floating-input' value={data?.userName} disabled />
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </div>
+                                    <div className="senara-form-group">
+                                        <input type="password" className='floating-input' placeholder='*********' disabled />
+                                        <FontAwesomeIcon icon={faKey} />
+                                    </div>
+                                    <div className="senara-form-group">
+                                        {errors.phone?.type === 'required' && <div className='a-alert'>El teléfono es obligatorio!</div>}
+                                        {errors.phone?.type === 'pattern' && <div className='a-alert'>Formato Costarricense requerido!</div>}
+                                        <input type="tel" className='floating-input' placeholder=' ' {...register('phone', { required: true, pattern: /^[2|4|5|6|7|8]\d{7}$/ })} defaultValue={data?.phone} />
+                                        <span className="highlight"></span>
+                                        <label> Teléfono </label>
+                                        <FontAwesomeIcon icon={faPhone} />
+                                    </div>
                                 </div>
-                                <div className="senara-form-group">
-                                    <input type="email" className='floating-input' value={data?.email} disabled />
-                                    <FontAwesomeIcon icon={faEnvelope} />
-                                </div>
-                                <div className="senara-form-group">
-                                    <input type="text" className='floating-input' value={data?.userName} disabled />
-                                    <FontAwesomeIcon icon={faUser} />
-                                </div>
-                                <div className="senara-form-group">
-                                    <input type="password" className='floating-input' placeholder='*********' disabled />
-                                    <FontAwesomeIcon icon={faKey} />
-                                </div>
-                                <div className="senara-form-group">
-                                    {errors.phone?.type === 'required' && <div className='a-alert'>El teléfono es obligatorio!</div>}
-                                    {errors.phone?.type === 'pattern' && <div className='a-alert'>Formato Costarricense requerido!</div>}
-                                    <input type="tel" className='floating-input' placeholder=' ' {...register('phone', { required: true, pattern: /^[2|4|5|6|7|8]\d{7}$/ })} defaultValue={data?.phone} />
-                                    <span className="highlight"></span>
-                                    <label> Teléfono </label>
-                                    <FontAwesomeIcon icon={faPhone} />
+                                <div>
+                                    <div className="senara-form-group">
+                                        {errors.province?.type === 'required' && <div className='a-alert'>La provincia es obligatoria!</div>}
+                                        <select className="floating-select" {...register("province", { required: true, onChange: e => loadCantons(e) })} defaultValue={data?.province} >
+                                            <option value="" disabled selected> Provincia </option>
+                                            {provinces?.map(value => (
+                                                <option key={value} value={provinces.indexOf(value) + 1}>
+                                                    {value}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="senara-form-group">
+                                        {errors.canton?.type === 'required' && <div className='a-alert'>El cantón es obligatorio!</div>}
+                                        <select className="floating-select" disabled={provinceAux ? false : true} {...register("canton", { required: true, onChange: e => loadDistricts(e) })} defaultValue={data?.canton} >
+                                            <option value="" disabled selected> Cantón </option>
+                                            {cantons?.map(value => (
+                                                <option key={value} value={cantons.indexOf(value) + 1}>
+                                                    {value}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="senara-form-group">
+                                        {errors.district?.type === 'required' && <div className='a-alert'>El distrito es obligatorio!</div>}
+                                        <select className="floating-select" disabled={cantonAux && provinceAux ? false : true} {...register("district", { required: true })} defaultValue={data?.district} >
+                                            <option value="" disabled selected> Distrito </option>
+                                            {districts?.map(value => (
+                                                <option key={value} value={districts.indexOf(value) + 1}>
+                                                    {value}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="senara-form-group">
+                                        {errors.exactAddress?.type === 'required' && <div className='a-alert'>La dirección exacta es obligatoria!</div>}
+                                        <textarea placeholder='' className='floating-textarea' {...register('exactAddress', { required: true })} defaultValue={data?.exactAddress}></textarea>
+                                        <label> Dirección Exacta </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <div className="senara-form-group">
-                                    {errors.province?.type === 'required' && <div className='a-alert'>La provincia es obligatoria!</div>}
-                                    <select className="floating-select" {...register("province", { required: true, onChange: e => loadCantons(e) })} defaultValue={data?.province} >
-                                        <option value="" disabled selected> Provincia </option>
-                                        {provinces?.map(value => (
-                                            <option key={value} value={provinces.indexOf(value) + 1}>
-                                                {value}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="senara-form-group">
-                                    {errors.canton?.type === 'required' && <div className='a-alert'>El cantón es obligatorio!</div>}
-                                    <select className="floating-select" disabled={provinceAux ? false : true} {...register("canton", { required: true, onChange: e => loadDistricts(e) })} defaultValue={data?.canton} >
-                                        <option value="" disabled selected> Cantón </option>
-                                        {cantons?.map(value => (
-                                            <option key={value} value={cantons.indexOf(value) + 1}>
-                                                {value}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="senara-form-group">
-                                    {errors.district?.type === 'required' && <div className='a-alert'>El distrito es obligatorio!</div>}
-                                    <select className="floating-select" disabled={cantonAux && provinceAux ? false : true} {...register("district", { required: true })} defaultValue={data?.district} >
-                                        <option value="" disabled selected> Distrito </option>
-                                        {districts?.map(value => (
-                                            <option key={value} value={districts.indexOf(value) + 1}>
-                                                {value}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="senara-form-group">
-                                    {errors.exactAddress?.type === 'required' && <div className='a-alert'>La dirección exacta es obligatoria!</div>}
-                                    <textarea placeholder='' className='floating-textarea' {...register('exactAddress', { required: true })} defaultValue={data?.exactAddress}></textarea>
-                                    <label> Dirección Exacta </label>
-                                </div>
-                            </div>
+                            <button type="submit" className='senara-btn-primary'>Guardar</button>
+                        </>
+                        :
+                        <div className="spinner-loading">
+                            <div></div><div></div><div></div><div></div>
                         </div>
-                        <button type="submit" className='senara-btn-primary'>Guardar</button>
-                    </form>
-                </div>
-                :
-                <div className="spinner-loading">
-                    <div></div><div></div><div></div><div></div>
-                </div>
-            }
+                    }
+                </form>
+            </div>
             <ToastContainer position="bottom-right" theme='colored' />
         </>
     )
