@@ -32,7 +32,7 @@ export const PDFQuejas = (values) => {
     40
   )
 
-  doc.text(values.problematica, 20, 55, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.problematica.trim(), 20, 55, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text('Exponga su problemática', 20, 50)
   doc.text(
     '_________________________________________________________________________________________________________',
@@ -55,7 +55,7 @@ export const PDFQuejas = (values) => {
     70
   )
 
-  doc.text(values.cuando, 20, 85, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.cuando.trim(), 20, 85, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text(
     'Desde cuando se presenta el problema',
     20,
@@ -71,7 +71,7 @@ export const PDFQuejas = (values) => {
     20,
     90
   )
-  doc.text(values.reportado, 20, 105, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.reportado.trim(), 20, 105, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text(
     'Lo ha reportado anteriormente',
     20,
@@ -83,7 +83,7 @@ export const PDFQuejas = (values) => {
     105
   )
 
-  doc.text(values.respInst, 20, 120, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.respInst.trim(), 20, 120, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text('Cuál ha sido la respuesta de la Institución', 20, 115)
   doc.text(
     '_________________________________________________________________________________________________________',
@@ -96,7 +96,7 @@ export const PDFQuejas = (values) => {
     125
   )
 
-  doc.text(values.solucion, 20, 140, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.solucion.trim(), 20, 140, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text(
     'Cuál considera usted que sea la solución al problema',
     20,
@@ -113,7 +113,7 @@ export const PDFQuejas = (values) => {
     145
   )
 
-  doc.text(values.aporte, 20, 160, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
+  doc.text(values.aporte.trim(), 20, 160, { align: "justify", maxWidth: 165, lineHeightFactor: 1.5 })
   doc.text(
     'Cuál sería su aporte para solucionar el problema',
     20,
