@@ -116,7 +116,7 @@ const FormSolicitudRiego = () => {
         notification(res.status)
       }
       console.log(res)
-    } catch (error) {}
+    } catch (error) { }
   }
 
   return (
@@ -310,7 +310,7 @@ const FormSolicitudRiego = () => {
                         </div>
                         <div className="senara-form-group">
                           {errors.rendimientoAnterior &&
-                          touched.rendimientoAnterior ? (
+                            touched.rendimientoAnterior ? (
                             <div className="a-alert">
                               {errors.rendimientoAnterior}
                             </div>
@@ -428,14 +428,16 @@ const FormSolicitudRiego = () => {
                         <FontAwesomeIcon icon={faAddressCard} />
                       </div>
                     </div>
-                    <button type="submit" className="senara-btn-primary">
-                      Hacer Solicitud
-                    </button>
-                    {flag ? (
-                      <button onClick={() => PDFSolicitudRiego(values, data)}>
-                        Imprimir PDF
+                    <div className="btn-group">
+                      <button type="submit" className="senara-btn-primary">
+                        Hacer Solicitud
                       </button>
-                    ) : null}
+                      {flag ? (
+                        <button type="button" className='senara-btn-primary btn-pdf' onClick={() => PDFSolicitudRiego(values, data)}>
+                          Imprimir PDF
+                        </button>
+                      ) : null}
+                    </div>
                   </>
                 ) : (
                   <div className="spinner-loading">

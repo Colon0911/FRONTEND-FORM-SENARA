@@ -8,5 +8,5 @@ export const notification = (status) => {
         draggable: true,
     }
 
-    status === 200 ? toast.success("Solicitud enviada!", custom) : toast.error("Error en la solicitud!", custom)
+    status === 200 ? toast.success("Solicitud completada!", custom) : toast.error("Error en la solicitud!", custom)
 }

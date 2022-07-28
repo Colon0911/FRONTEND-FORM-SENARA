@@ -9,6 +9,10 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import Logo from '../../components/Logo';
 
+import { ToastContainer } from 'react-toastify'
+import { notification } from '../../components/Toast'
+import "react-toastify/ReactToastify.min.css";
+
 const Register = () => {
     const registerSchema = Yup.object().shape({
         identificationType: Yup.string().required('Tipo de Cédula obligatorio!'),
@@ -51,9 +55,12 @@ const Register = () => {
         delete e['confirmation']
         const res = await registerUser(e)
         if (res.status === 200) {
+            notification(res.status)
             setTimeout(() => {
                 navigate("/", { replace: true })
-            }, 500);
+            }, 1500);
+        } else {
+            notification(res.status)
         }
     }
 
@@ -122,6 +129,7 @@ const Register = () => {
                     )
                 }}
             </Formik>
+            <ToastContainer position="bottom-right" theme='colored' />
         </div>
     )
 }

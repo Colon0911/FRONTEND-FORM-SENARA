@@ -7,9 +7,14 @@ import { resetPassword } from '../../services/userServices'
 
 import Logo from '../../components/Logo'
 
+import { ToastContainer } from 'react-toastify'
+import { notification } from '../../components/Toast'
+import "react-toastify/ReactToastify.min.css";
+
 const ResetPassword = () => {
 
     const navi = useParams()
+    const navigate = useNavigate()
 
     const ResetPasswordSchema = Yup.object().shape({
         password: Yup.string()
@@ -21,7 +26,15 @@ const ResetPassword = () => {
     })
 
     const handleSubmit = async values => {
-        await resetPassword(values, navi.token)
+        const res = await resetPassword(values, navi.token)
+        if (res.status === 200) {
+            notification(res.status)
+            setTimeout(() => {
+                navigate("/", { replace: true })
+            }, 1500);
+        } else {
+            notification(res.status)
+        }
     }
 
     return (
@@ -78,6 +91,7 @@ const ResetPassword = () => {
                     );
                 }}
             </Formik>
+            <ToastContainer position="bottom-right" theme='colored' />
         </div>
     );
 };
