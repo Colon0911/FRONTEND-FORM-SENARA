@@ -17,6 +17,7 @@ import FormPlanRiego from './pages/forms/FormPlanRiego'
 
 // Primer Route = Area Publica
 function App() {
+
 	return (
 		<BrowserRouter>
 			<AuthProvider>
@@ -38,6 +39,7 @@ function App() {
 			</AuthProvider>
 		</BrowserRouter>
 	)
+
 }
 
 export default App
