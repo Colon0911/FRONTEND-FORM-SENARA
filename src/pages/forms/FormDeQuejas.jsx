@@ -36,20 +36,20 @@ const FormDeQuejas = () => {
 
     tipoUsuario: Yup.string().required('Tipo de Usuario obligatorio!'),
     lugar: Yup.string().required('El Lugar es obligatorio!'),
-    nParcela: Yup.string().required('El Nº Parcela es obligatorio!'),
-    nToma: Yup.string().required('El Nº Toma es obligatorio!'),
+    nParcela: Yup.number().required('El Nº Parcela es obligatorio!').typeError('Sólo números son aceptados!'),
+    nToma: Yup.number().required('El Nº Toma es obligatorio!').typeError('Sólo números son aceptados!'),
     problematica: Yup.string().required('El campo es obligatorio!')
-      .max(500, 'Maximo 500 Caracteres!'),
+      .max(450, 'Maximo 500 Caracteres!').trim(),
     cuando: Yup.string().required('El campo es obligatorio!')
-      .max(250, 'Maximo 250 Caracteres!'),
+      .max(225, 'Maximo 250 Caracteres!').trim(),
     reportado: Yup.string().required('El campo es obligatorio!')
-      .max(130, 'Maximo 130 Caracteres!'),
+      .max(115, 'Maximo 130 Caracteres!').trim(),
     respInst: Yup.string().required('El campo es obligatorio!')
-      .max(250, 'Maximo 250 Caracteres!'),
+      .max(225, 'Maximo 250 Caracteres!').trim(),
     solucion: Yup.string().required('El campo es obligatorio!')
-      .max(250, 'Maximo 250 Caracteres!'),
+      .max(225, 'Maximo 250 Caracteres!').trim(),
     aporte: Yup.string().required('El campo es obligatorio!')
-      .max(250, 'Maximo 250 Caracteres!')
+      .max(225, 'Maximo 250 Caracteres!').trim()
 
   })
 
@@ -122,7 +122,7 @@ const FormDeQuejas = () => {
 
                     <div className="forms-content-group-item">
                       <div className="senara-form-group">
-                        <p><small>{date}{" "}{hourNow}</small></p>
+                        <p><small>Fecha:{" "}{date}{" "}{" "}{" "}Hora:{" "}{hourNow}</small></p>
                         <p><small></small></p>
                       </div>
                     </div>
@@ -242,6 +242,7 @@ const FormDeQuejas = () => {
                           name="problematica"
                           placeholder=""
                           className="floating-textarea"
+                          maxlength="450"
                         />
 
                         <label> Exponga su problemática </label>
@@ -259,6 +260,7 @@ const FormDeQuejas = () => {
                           name="cuando"
                           placeholder=""
                           className="floating-textarea"
+                          maxlength="225"
                         />
 
                         <label> Desde cuando presenta el problema </label>
@@ -276,6 +278,7 @@ const FormDeQuejas = () => {
                           name="reportado"
                           placeholder=""
                           className="floating-input"
+                          maxlength="115"
                         />
 
                         <label> Lo ha reportado anteriormente </label>
@@ -293,6 +296,7 @@ const FormDeQuejas = () => {
                           name="respInst"
                           placeholder=""
                           className="floating-textarea"
+                          maxlength="225"
                         />
                         <label>
                           Cuál ha sido la respuesta de la Institución
@@ -311,6 +315,7 @@ const FormDeQuejas = () => {
                           name="solucion"
                           placeholder=""
                           className="floating-textarea"
+                          maxlength="225"
                         />
                         <label>
                           Cuál considera usted que sea la solución al problema
@@ -330,6 +335,7 @@ const FormDeQuejas = () => {
                           type="text"
                           placeholder=""
                           className="floating-textarea"
+                          maxlength="225"
                         />
                         <label>
                           Cuál seria su aporte para solucionar el problema
@@ -370,7 +376,7 @@ const FormDeQuejas = () => {
                     </div>
                     <div className='btn-group'>
                       <button type="submit" className="senara-btn-primary">
-                        Guardar
+                        Enviar Queja
                       </button>
                       {showPDF && <button type='button' className='senara-btn-primary btn-pdf' onClick={() => handlePDF(values)}> PDF</button>}
                     </div>
