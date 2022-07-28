@@ -26,11 +26,11 @@ const HomeLayouts = () => {
         </h4>
         <div className="senara-icon-header">
           <Link to="/dashboard/profile">
-            {user}
+            <p>{user}</p>
             <FontAwesomeIcon icon={faUser} size="2x" color="#07392a" />
           </Link>
           <a onClick={logout} className="logout-header">
-            Salir
+            <p>Salir</p>
             <FontAwesomeIcon icon={faDoorOpen} size="2x" color="rgb(169,0,0)" />
           </a>
         </div>
