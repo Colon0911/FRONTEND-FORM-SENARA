@@ -125,5 +125,5 @@ export const PDFSolicitudRiego = (obj, data) => {
   )
   doc.text('Observaciones: ' + obj.observaciones + '', 20, 175)
 
-  doc.save('PDFprueba.pdf')
+  doc.save('solicitudderiego_' + data.identification + '_' + dateNow() + '.pdf')
 }

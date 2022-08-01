@@ -40,11 +40,11 @@ const FormSolicitudRiego = () => {
     proyecto: Yup.string()
       .required('Este campo es necesario')
       .max(20, 'Maximo 20 caracteres'),
-    subDistrito: Yup.string().required('Este campo es necesario'),
+    subDistrito: Yup.string(),//.required('Este campo es necesario'),
     area: Yup.number()
       .required('Este campo es necesario')
       .typeError('Este campo es numerico'),
-    cultivo: Yup.string().required('Este campo es necesario'),
+    cultivo: Yup.string(),//.required('Este campo es necesario'),
     variedad: Yup.string().required('Este campo es necesario'),
     rendimientoAnterior: Yup.string()
       .required('Este campo es necesario')
